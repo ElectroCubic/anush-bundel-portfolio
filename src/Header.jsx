@@ -3,7 +3,7 @@ function Header()
 {
     return(
         <header className="header-container">
-            <h1> Welcome to My Portfolio Website! </h1>
+            <h1> Welcome to My Portfolio Website! (Under Construction 🛠️🔨)</h1>
             <nav>
                 <ul> 
                     <li><a href="#">Home</a></li>
@@ -13,6 +13,7 @@ function Header()
                 </ul>
                 <hr></hr>
             </nav>
+            <h1> Coming Soon! </h1>
         </header>
     );
 }
