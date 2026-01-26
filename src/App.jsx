@@ -1,9 +1,14 @@
 
-import Header from "./Header.jsx"
+import ProjectCard from "./Components/ProjectCard.jsx";
+import Header from "./Components/Header.jsx"
 
 function App() {
     return(
-        <Header />
+        <>
+            <Header />
+            <ProjectCard />
+        </>
+
     );
 }
 export default App
