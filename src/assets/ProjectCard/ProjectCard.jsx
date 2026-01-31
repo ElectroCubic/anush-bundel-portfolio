@@ -1,12 +1,14 @@
 
-import profilePic from "../ElectroCubicLogo_New.png"
+import placeholderPic from "../Placeholder.png"
 import styles from "./ProjectCard.module.css"
 
 function ProjectCard()
 {
     return(
-        <div>
-            <h1>This is a Project Card</h1>
+        <div className={styles.card}>
+            <img src={placeholderPic}></img>
+            <h1> Project Title </h1>
+            <p> Description </p>
         </div>
     );
 }

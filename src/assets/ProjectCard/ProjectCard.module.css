@@ -1,0 +1,29 @@
+
+.card {
+    border: 1px solid var(--accent-color2);
+    background-color: var(--card-bg-color);
+    border-radius: 15px;
+    box-sizing: content-box;
+    box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+    margin: 15px;
+    display: inline-block;
+    text-align: center;
+    height: 400px;
+    
+}
+
+.card h1 {
+    color: var(--text-color1);
+    font-weight: 300;
+}
+
+.card p {
+    color: var(--text-color2);
+}
+
+.card img {
+    height: 50%;
+    width: 100%;
+    object-fit: cover;
+}

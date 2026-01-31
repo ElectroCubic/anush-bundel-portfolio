@@ -1,9 +1,26 @@
+
+* {
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    box-sizing: border-box;
+    font-family: "Azeret Mono", monospace;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    padding: 0;
+    overflow-x: hidden;
     background-color: var(--bg-color1);
     color: var(--text-color1);
-    font-family: "Azeret Mono", monospace;
+}
+
+section {
+    scroll-margin-top: 90px;
 }
 
 :root {
@@ -18,4 +35,5 @@ body {
     --secondary-color2: #0D133F;
     --accent-color1: #5EEB8A;
     --accent-color2: #09E6F6;
+    --card-bg-color: #0E0B27;
 }

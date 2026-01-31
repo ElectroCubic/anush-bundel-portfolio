@@ -5,29 +5,25 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 1.2rem 4rem;
+    width: 100%;
+    padding: 1rem 2rem;
     background-color: var(--bg-color3);
 }
 
+.brand {
+    flex-shrink: 0;
+}
+
 .hero {
-    text-decoration: none;
     font-size: 1.3rem;
     font-weight: 500;
     padding-bottom: 7px;
+    margin-right: 35px;
 }
 
 .hero a {
     color: var(--text-color1);
     text-decoration: none;
-}
-
-.alias a {
-    color: var(--text-color2);
-    text-decoration: none;
-}
-
-.alias a:hover {
-    color: var(--primary-color2);
 }
 
 .alias {
@@ -38,34 +34,85 @@
 .links {
     list-style: none;
     display: flex;
-    gap: 2rem;
+    gap: 2.6rem;
     margin: 0;
     padding: 0;
 }
 
-.links a {
-    color: var(--text-color2);
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 1.1rem;
+.links li {
     position: relative;
 }
 
-.links a:hover {
-    color: var(--primary-color2);
+.links a {
+    position: relative;
+    display: block;
+    padding: 0.6rem 0.75rem;
+    color: var(--text-color2);
+    text-decoration: none;
+    font-weight: 350;
+    font-size: 1.1rem;
+    white-space: nowrap;
 }
 
 .links a::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -15px;
-    width: 0%;
+    right: 0;
+    bottom: -6px;
     height: 3px;
     background-color: var(--primary-color2);
-    transition: width 0.25s ease;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
 }
 
-.links a:hover::after {
-    width: 100%;
+.links li:hover a {
+    color: var(--primary-color2);
+}
+
+.links li:hover a::after {
+    transform: scaleX(1);
+}
+
+.active a {
+    color: var(--primary-color2);
+}
+
+.active a::after {
+    transform: scaleX(1);
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        padding: 0.75rem 1rem;
+        gap: 1rem;
+    }
+
+    .links {
+        flex: 1;
+        min-width: 0;
+        max-width: 60vw;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        gap: 1.25rem;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .links a {
+        padding: 0.5rem 0.6rem;
+    }
+
+    .links a::after {
+        bottom: -4px;
+    }
 }
