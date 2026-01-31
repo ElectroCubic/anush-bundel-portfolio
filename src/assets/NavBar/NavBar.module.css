@@ -1,0 +1,71 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1.2rem 4rem;
+    background-color: var(--bg-color3);
+}
+
+.hero {
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding-bottom: 7px;
+}
+
+.hero a {
+    color: var(--text-color1);
+    text-decoration: none;
+}
+
+.alias a {
+    color: var(--text-color2);
+    text-decoration: none;
+}
+
+.alias a:hover {
+    color: var(--primary-color2);
+}
+
+.alias {
+    font-size: 1rem;
+    color: var(--text-color2);
+}
+
+.links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.links a {
+    color: var(--text-color2);
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.links a:hover {
+    color: var(--primary-color2);
+}
+
+.links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    width: 0%;
+    height: 3px;
+    background-color: var(--primary-color2);
+    transition: width 0.25s ease;
+}
+
+.links a:hover::after {
+    width: 100%;
+}

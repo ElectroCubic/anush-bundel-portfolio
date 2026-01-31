@@ -1,36 +1,21 @@
-body{
-    background-color: hsl(262, 65%, 9%);
-    color: white;
-}
-
-a{
-    text-decoration: none;
-    color: aqua;
-    transition: color 0.2s ease; 
-}
-
-a:hover{
-    color: hsl(180, 100%, 40%); 
-}
-
-.header-container{
-    text-align: center;
-    margin-top: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.header-container ul{
+body {
+    margin: 0;
     padding: 0;
-    list-style: none;
+    background-color: var(--bg-color1);
+    color: var(--text-color1);
+    font-family: "Azeret Mono", monospace;
 }
 
-.header-container li{
-    display: inline-flex;
-    margin: 8px 12px;
-    font-size: 1.5rem;
-
-}
-
-.header-container h1{
-    font-size: 2em;
+:root {
+    --bg-color1: #050B1A;
+    --bg-color2: #040E23;
+    --bg-color3: #0C0B23;
+    --text-color1: #DCE3EE;
+    --text-color2: #898C9D;
+    --primary-color1: #7AA2F7;
+    --primary-color2: #0A8B9C;
+    --secondary-color1: #2F3E5C;
+    --secondary-color2: #0D133F;
+    --accent-color1: #5EEB8A;
+    --accent-color2: #09E6F6;
 }

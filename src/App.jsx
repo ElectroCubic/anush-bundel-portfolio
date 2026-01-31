@@ -1,14 +1,12 @@
 
-import ProjectCard from "./Components/ProjectCard.jsx";
-import Header from "./Components/Header.jsx"
+import ProjectCard from "./assets/ProjectCard/ProjectCard.jsx"
+import NavBar from "./assets/NavBar/NavBar.jsx";
 
 function App() {
     return(
         <>
-            <Header />
-            <ProjectCard />
+            <NavBar />
         </>
-
     );
 }
 export default App
