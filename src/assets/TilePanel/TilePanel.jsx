@@ -9,7 +9,7 @@ const TilePanel = forwardRef(function TilePanel(
   return (
     <div
       ref={ref}
-      className={`${styles.tilePanel} ${className}`}
+      className={`tilePanel ${styles.tilePanel} ${className}`}
       style={style}
       {...props}
     >
