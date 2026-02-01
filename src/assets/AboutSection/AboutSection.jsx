@@ -163,7 +163,7 @@ export default function AboutSection() {
                             data-tile
                             data-index={idx}
                             className={`${isDragging ? styles.dragging : ""} ${isOver ? styles.over : ""}`}
-                            style={isDragging ? { transform: `translate(${drag.dx}px, ${drag.dy}px)`, cursor: "grabbing"} : undefined}
+                            style={isDragging ? { transform: `translate(${drag.dx}px, ${drag.dy}px) scale(1.05)`, cursor: "grabbing"} : undefined}
                             onPointerDown={(e) => onPointerDown(e, idx)}
                         />
                     );

@@ -21,3 +21,8 @@
     font-weight: 400;
     text-align: center;
 }
+
+.tilePanel:hover {
+    border-color: var(--accent-color2);
+    box-shadow: 0 0 10px var(--accent-color2);
+}
