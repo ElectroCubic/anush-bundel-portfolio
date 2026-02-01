@@ -1,11 +1,10 @@
 .aboutSection {
+    margin: 7rem auto;
+    padding: 4rem 0;
     max-width: 1100px;
-    margin: 0 auto;
     min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: center;
-    justify-content: center;
     column-gap: 6rem;
 }
 

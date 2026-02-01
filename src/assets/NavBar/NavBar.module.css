@@ -68,7 +68,7 @@
     background-color: var(--primary-color2);
     transform: scaleX(0);
     transform-origin: center;
-    transition: transform 0.25s ease;
+    transition: transform 0.2s ease;
 }
 
 .links li:hover a {
@@ -117,6 +117,6 @@
     }
 
     .links a::after {
-        bottom: -40px;
+        bottom: -4px;
     }
 }
