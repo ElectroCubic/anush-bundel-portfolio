@@ -107,7 +107,7 @@ export default function AboutSection() {
             ...prev,
             dx,
             dy,
-            over: overIndex ?? prev.over,
+            over: overIndex,
         }));
     };
 
