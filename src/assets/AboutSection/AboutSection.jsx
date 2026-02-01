@@ -8,8 +8,8 @@ function AboutSection()
         <div className={styles.aboutSection}>
             <div className={styles.aboutText}>
                 <h1> Who Am I? </h1>
-                <p> A game developer focused on building interactive 
-                    systems and refining how games feel to play. </p>
+                <p> I'm a game developer passionate about building interactive 
+                    systems and improving how games feel to play. </p>
             </div>
 
             <div className={styles.wordGridContainer}>

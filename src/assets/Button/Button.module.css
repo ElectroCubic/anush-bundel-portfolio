@@ -2,7 +2,7 @@
     height: 55px;
     padding: 0 18px;
     cursor: pointer;
-    user-select: none;
+    justify-content: center;
     transform: translateY(0);
     transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 }
