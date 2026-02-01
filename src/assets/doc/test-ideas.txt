@@ -3,7 +3,7 @@ Ideas for website:
 
 - Landing page with background animation
 - dark mode toggle? (maybe)
-- Hero image profile pop up
+- Hero image profile glow effect
 - background images for project cards
 - cool custom favicon
 - Write a short "intro" page instead of a long about section

@@ -4,6 +4,7 @@ To-Do:
 1. Create proper CSS file structure
 2. Fix the project card component
 3. Design components for various sections of portfolio
-4. Cleanup /assets folder later
+4. Implement interactive grid for fun
+5. Cleanup /assets folder later
 
-NOTE: Fetch backup content from drive if I dont have it here 
+NOTE: Get backup from drive if its not here!

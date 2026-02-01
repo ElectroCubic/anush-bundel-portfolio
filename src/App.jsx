@@ -7,10 +7,10 @@ function App() {
     return(
         <>
             <NavBar />
-            <section id="home">
+            <section id="home" style={{ minHeight: "100vh" }}>
                 <HeroSection />
             </section>
-            <section id="about">
+            <section id="about" style={{ minHeight: "100vh" }}>
                 <AboutSection />
             </section>
             <section id="projects" style={{ minHeight: "100vh" }}>

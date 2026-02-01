@@ -9,6 +9,7 @@
 }
 
 html {
+    /* scroll-snap-type: y mandatory; */
     scroll-behavior: smooth;
 }
 
@@ -20,6 +21,7 @@ body {
 }
 
 section {
+    /* scroll-snap-align: start; */
     scroll-margin-top: 90px;
 }
 
