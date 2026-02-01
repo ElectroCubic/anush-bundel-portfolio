@@ -31,10 +31,14 @@
     color: var(--text-color2);
 }
 
+.alias:hover {
+    color: var(--primary-color2);
+}
+
 .links {
     list-style: none;
     display: flex;
-    gap: 2.6rem;
+    gap: 2rem;
     margin: 0;
     padding: 0;
 }
@@ -69,11 +73,12 @@
 }
 
 .links li:hover a {
-    color: var(--primary-color2);
+    color: var(--accent-color2);
 }
 
 .links li:hover a::after {
     transform: scaleX(1);
+    background-color: var(--accent-color2);
 }
 
 .active a {

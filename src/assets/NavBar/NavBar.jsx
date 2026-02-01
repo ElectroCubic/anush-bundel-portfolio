@@ -9,6 +9,9 @@ const SECTIONS = [
     { id: "contact", label: "Contact" },
 ];
 
+const thresholdVal = 0.15;
+const rootMarginVal = "-20% 0px -60% 0px";
+
 function NavBar() {
     const [active, setActive] = useState("home");
 
@@ -37,8 +40,8 @@ function NavBar() {
             if (candidates[0]?.id) setActive(candidates[0].id);
             },
             {
-            threshold: 0.15,
-            rootMargin: "-20% 0px -60% 0px",
+            threshold: thresholdVal,
+            rootMargin: rootMarginVal,
             }
         );
 

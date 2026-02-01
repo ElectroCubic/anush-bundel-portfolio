@@ -1,0 +1,14 @@
+
+.tilePanel {
+    border: 3px solid var(--accent-color2);
+    border-radius: 15px;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tilePanel h3 {
+    font-weight: 400;
+}
