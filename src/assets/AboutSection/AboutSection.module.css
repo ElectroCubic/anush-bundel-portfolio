@@ -6,6 +6,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 11rem;
+    align-items: center;
 }
 
 .aboutSection h1 {
@@ -13,7 +14,7 @@
     font-size: 3.5rem;
     font-weight: 400;
     text-align: center;
-    padding-top: 3rem;
+    padding-top: 0;
 }
 
 .aboutSection p {
@@ -23,6 +24,14 @@
     color: var(--text-color2);
     line-height: 1.7;
     text-align: center;
+}
+
+.textBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    align-self: center;
 }
 
 .wordGridContainer {
@@ -40,12 +49,15 @@
     gap: 0.6rem;
 }
 
-.textBlock {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.5rem;
-    align-self: center;
+.dragging {
+    z-index: 10;
+    position: relative;
+    pointer-events: none;
+    transition: none !important;
+}
+
+.over {
+  border-color: var(--primary-color2);
 }
 
 @media (max-width: 900px) {
