@@ -1,14 +1,8 @@
 .button {
     height: 55px;
     padding: 0 18px;
-    border-radius: 8px;
-    color: var(--bg-color3);
-    font-weight: 600;
-    font-size: 1.1rem;
     cursor: pointer;
     user-select: none;
-
-    box-shadow: 0 10px 0 rgba(0, 0, 0, 0.35);
     transform: translateY(0);
     transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 }

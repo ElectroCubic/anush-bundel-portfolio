@@ -1,7 +1,10 @@
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faForward } from "@fortawesome/free-solid-svg-icons";
 import ProfilePic from "../ProfilePic/ProfilePic.jsx"
 import Button from "../Button/Button.jsx"
 import styles from "./HeroSection.module.css"
+
+const resumeName = "Anush Bundel Resume Game Dev.pdf";
 
 function HeroSection() 
 {
@@ -11,20 +14,19 @@ function HeroSection()
 
             <div className={styles.headline}>
                 <h1> Building Worlds Never Imagined Before. </h1>
-                <p> Designing games and interactive systems with a focus on mechanics, feedback, and player experience. </p>
+                <p> Designing games and interactive systems with a focus on 
+                    mechanics, feedback, and player experience. </p>
+
                 <div className={styles.ctaButton}>
-                    <Button text="Explore Projects" className={styles.heroCta}
-                    onClick={() => scrollTo("projects")} />
+                    <Button className={styles.heroCta} onClick={() => scrollTo("projects")}>
+                        Explore Projects
+                        <FontAwesomeIcon icon={faForward} className={styles.icon} />
+                    </Button>
                     
-                    <Button text="Dowload Resume" className={styles.resume} 
-                      onClick={() => {
-                        const link = document.createElement("a");
-                        link.href = "/Anush Bundel Resume Game Dev.pdf";
-                        link.download = "Anush Bundel Resume Game Dev.pdf";
-                        document.body.appendChild(link);
-                        link.click();
-                        link.remove();
-                    }}/>
+                    <Button className={styles.resume} 
+                      onClick={() => downloadResume()}>
+                        Download Resume
+                    </Button>
                     
                 </div>
             </div>
@@ -32,8 +34,19 @@ function HeroSection()
     );
 }
 
-function scrollTo(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+function downloadResume() {
+    const link = document.createElement("a");
+    link.href = "/" + resumeName;
+    link.download = resumeName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
+
+function scrollTo(id, delay=150) {
+    setTimeout(() => { 
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }, delay);
 }
 
 export default HeroSection

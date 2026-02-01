@@ -34,25 +34,46 @@
 }
 
 .ctaButton {
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
 .heroCta {
+    font-size: 1.3rem;
+    font-weight: 500;
     height: 60px;
     padding: 0 22px;
     border-radius: 10px;
     background-color: var(--primary-color1);
     border: 2px solid var(--secondary-color1);
-    box-shadow: 4px 4px var(--secondary-color1);
+    box-shadow: 3px 3px var(--secondary-color1);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;     /* space between text and icon */
+}
+
+.icon {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.heroCta:hover .icon {
+  transform: translateX(5px);
 }
 
 .resume {
+    font-size: 1.2rem;
+    font-weight: 400;
     height: 60px;
     padding: 0 22px;
     border-radius: 10px;
     color: var(--text-color1);
     background-color: var(--bg-color3);
-    margin-left: 2rem;
     border: 2px solid var(--secondary-color1);
     box-shadow: 4px 4px var(--secondary-color2);
 }
@@ -79,4 +100,8 @@
     .headline p {
         font-size: 1.05rem;
     }
-}
+    .ctaButton > * {
+        width: 100%;
+        max-width: 320px;
+    }
+    }
