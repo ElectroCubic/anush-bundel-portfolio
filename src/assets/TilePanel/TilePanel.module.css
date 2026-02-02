@@ -1,50 +1,53 @@
-.tilePanel {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border: 3px solid var(--secondary-color1);
-    border-radius: 16px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: clamp(0.5rem, 2vw, 1.2rem);
-    background: var(--card-bg-color);
-
-    touch-action: none;
-    user-select: none;
-    cursor: grab;
-
-    transition: transform 300ms ease, box-shadow 180ms ease, border-color 180ms ease;
-    will-change: transform;
-}
-
-.tilePanel h3 {
-  margin: 0;
-  font-weight: 400;
-  text-align: center;
-  font-size: clamp(0.85rem, 2.6vw, 1.2rem);
-  line-height: 1.2;
-}
-
-.tilePanel:hover {
-    border-color: var(--accent-color2);
-    box-shadow: 0 0 10px var(--accent-color2);
-}
-
-.tilePanel.isActive {
-  border-color: var(--accent-color2);
-  box-shadow: 0 0 16px var(--accent-color2);
-  transform: scale(1.03);
-}
-
-.tilePanel:active {
-  border-color: var(--accent-color2);
-}
-
-
-@media (min-width: 700px) {
   .tilePanel {
-    min-height: 110px;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 3px solid var(--secondary-color1);
+      border-radius: 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: clamp(0.5rem, 2vw, 1.2rem);
+      background: var(--card-bg-color);
+
+      touch-action: none;
+      user-select: none;
+      cursor: grab;
+
+      transition: transform 300ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      will-change: transform;
   }
-}
+
+  .tilePanel h3 {
+    margin: 0;
+    font-weight: 400;
+    text-align: center;
+    font-size: clamp(0.85rem, 2.6vw, 1.2rem);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tilePanel:hover {
+      border-color: var(--accent-color2);
+      box-shadow: 0 0 10px var(--accent-color2);
+  }
+
+  .tilePanel.isActive {
+    border-color: var(--accent-color2);
+    box-shadow: 0 0 16px var(--accent-color2);
+    transform: scale(1.03);
+  }
+
+  .tilePanel:active {
+    border-color: var(--accent-color2);
+  }
+
+
+  @media (min-width: 700px) {
+    .tilePanel {
+      min-height: 110px;
+    }
+  }

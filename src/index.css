@@ -22,7 +22,7 @@ body {
 
 section {
     /* scroll-snap-align: start; */
-    scroll-margin-top: 90px;
+    scroll-margin-top: 50px;
 }
 
 :root {

@@ -4,7 +4,7 @@ import TilePanel from "../TilePanel/TilePanel.jsx";
 
 const words = [
     { id: "design", label: "Design" },
-    { id: "mechanic", label: "Mechanic" },
+    { id: "mechanics", label: "Mechanics" },
     { id: "systems", label: "Systems" },
     { id: "build", label: "Build" },
     { id: "gameplay", label: "Gameplay" },
@@ -15,17 +15,17 @@ const words = [
 ];
 
 const RELATIONS = [
-    ["design", "mechanic"],
-    ["mechanic", "systems"],
-    ["systems", "loops"],
-    ["gameplay", "player"],
+    ["design", "gameplay"],
+    ["gameplay", "loops"],
+    ["build", "mechanics"],
+    ["mechanics", "systems"],
     ["player", "feedback"],
-    ["build", "iterate"],
+    ["iterate", "player"],
 ];
 
 const SOLUTION = [
-    "design", "mechanic", "systems",
-    "build", "gameplay", "loops",
+    "design", "gameplay", "loops",
+    "build", "mechanics", "systems",
     "iterate", "player", "feedback",
 ];
 
@@ -115,10 +115,6 @@ export default function AboutSection() {
         const set = new Set();
 
         for (const [a, b] of RELATIONS) {
-            if (!correctPlacedIds.has(a) || !correctPlacedIds.has(b)) {
-                continue;
-            }
-
             const ia = idToIndex.get(a);
             const ib = idToIndex.get(b);
 
@@ -317,7 +313,8 @@ export default function AboutSection() {
                 <h1>Who Am I?</h1>
                 <p>
                     I'm a game developer passionate about building interactive
-                    systems and improving how games feel to play.
+                    systems and refining how games feel to play. <br/><br/>
+                    I enjoy participating in game jams and challenging myself to learn new stuff. 
                 </p>
             </div>
 
