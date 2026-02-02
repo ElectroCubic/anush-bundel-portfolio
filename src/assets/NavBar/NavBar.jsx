@@ -118,7 +118,7 @@ function NavBar() {
                 {SECTIONS.map((s) => (
                     <li key={s.id} className={active === s.id ? styles.active : ""}>
                         <a href={`#${s.id}`} onClick={() => handleLinkClick(s.id)}>
-                            <i className={`fa-solid fa-angle-right ${styles.menuIcon}`} aria-hidden="true" />
+                            <i className={styles.menuIcon} aria-hidden="true" />
                             {s.label}
                         </a>
                     </li>
