@@ -1,122 +1,153 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    padding: 1rem 2rem;
-    background-color: var(--bg-color3);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: var(--bg-color3);
+  gap: 2rem;
 }
 
 .brand {
-    flex-shrink: 0;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .hero {
-    font-size: 1.3rem;
-    font-weight: 500;
-    padding-bottom: 7px;
-    margin-right: 35px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding-bottom: 7px;
+  margin-right: 35px;
 }
 
 .hero a {
-    color: var(--text-color1);
-    text-decoration: none;
+  color: var(--text-color1);
+  text-decoration: none;
 }
 
 .alias {
-    font-size: 1rem;
-    color: var(--text-color2);
+  font-size: 1rem;
+  color: var(--text-color2);
 }
 
-.alias:hover {
+@media (hover: hover) {
+  .alias:hover {
     color: var(--primary-color2);
+  }
 }
 
 .links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  flex: 1;
+  min-width: 0;
+
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
 }
 
 .links li {
-    position: relative;
+  position: relative;
 }
 
 .links a {
-    position: relative;
-    display: block;
-    padding: 0.6rem 0.75rem;
-    color: var(--text-color2);
-    text-decoration: none;
-    font-weight: 350;
-    font-size: 1.1rem;
-    white-space: nowrap;
+  position: relative;
+  display: block;
+  padding: 0.6rem 0.75rem;
+  padding-bottom: 0.85rem;
+
+  color: var(--text-color2);
+  text-decoration: none;
+  font-weight: 350;
+  font-size: 1.1rem;
+  white-space: nowrap;
 }
 
 .links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -6px;
-    height: 3px;
-    background-color: var(--primary-color2);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.2s ease;
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.35rem;
+  height: 3px;
+
+  background-color: var(--primary-color2);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.links li:hover a {
+@media (hover: hover) {
+  .links li:hover a {
     color: var(--accent-color2);
-}
+  }
 
-.links li:hover a::after {
-    transform: scaleX(1);
+  .links li:hover a::after {
+    transform: scaleX(1.25);
     background-color: var(--accent-color2);
+  }
 }
 
 .active a {
-    color: var(--primary-color2);
+  color: var(--primary-color2);
 }
 
 .active a::after {
-    transform: scaleX(1);
+  transform: scaleX(1.25);
 }
 
-@media (max-width: 700px) {
-    .navbar {
-        padding: 0.75rem 1rem;
-        gap: 1.2rem;
-    }
+@media (max-width: 850px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
 
-    .links {
-        flex: 1;
-        min-width: 0;
-        max-width: 60vw;
+  .hero {
+    margin-right: 0;
+    padding-bottom: 4px;
+    font-size: 1.15rem;
+  }
 
-        overflow-x: auto;
-        overflow-y: hidden;
-        flex-wrap: nowrap;
-        gap: 1.25rem;
+  .alias {
+    font-size: 0.95rem;
+  }
 
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
+  .links {
+    justify-content: flex-start;
+    gap: 1.25rem;
 
-    .links::-webkit-scrollbar {
-        display: none;
-    }
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
 
-    .links a {
-        padding: 0.5rem 0.6rem;
-    }
+    max-width: none;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 
-    .links a::after {
-        bottom: -4px;
-    }
+    padding: 0 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .links a {
+    padding: 0.5rem 0.6rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .links a::after {
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.28rem;
+  }
 }

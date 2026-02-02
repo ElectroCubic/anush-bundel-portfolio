@@ -45,7 +45,6 @@
     border-color: var(--accent-color2);
   }
 
-
   @media (min-width: 700px) {
     .tilePanel {
       min-height: 110px;
