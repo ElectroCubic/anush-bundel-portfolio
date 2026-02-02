@@ -58,6 +58,7 @@
     z-index: 10;
     position: relative;
     transition: none !important;
+    border-color: var(--accent-color2) !important;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
 }
 
