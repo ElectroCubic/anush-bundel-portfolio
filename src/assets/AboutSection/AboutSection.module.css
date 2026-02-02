@@ -1,55 +1,55 @@
 .aboutSection {
-  margin: 5rem auto;
-  padding: 4rem 1.25rem;
-  max-width: 1100px;
-  min-height: 100vh;
+    margin: 5rem auto;
+    padding: 4rem 1.25rem;
+    max-width: 1100px;
+    min-height: 100vh;
 
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
 }
 
 .textBlock {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.9rem;
-  justify-content: center;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.9rem;
+    justify-content: center;
 }
 
 .textBlock h1 {
-  font-size: 3.5rem;
-  font-weight: 400;
-  text-align: center;
-  margin: 0;
+    font-size: 3.5rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
 }
 
 .textBlock p {
-  font-size: 1.3rem;
-  color: var(--text-color2);
-  line-height: 1.7;
-  text-align: center;
-  max-width: 45ch;
-  margin: 0 auto;
+    font-size: 1.3rem;
+    color: var(--text-color2);
+    line-height: 1.7;
+    text-align: center;
+    max-width: 45ch;
+    margin: 0 auto;
 }
 
 .wordGridContainer {
-  width: 100%;
-  max-width: 520px;
-  justify-self: end;
+    width: 100%;
+    max-width: 520px;
+    justify-self: end;
 }
 
 .wordGrid {
-  width: 100%;
-  max-width: 520px;
-  padding: clamp(0.45rem, 1.6vw, 0.7rem);
-  border: 3px solid var(--secondary-color1);
-  border-radius: 15px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(0.35rem, 1.3vw, 0.6rem);
-  box-sizing: border-box;
+    width: 100%;
+    max-width: 520px;
+    padding: clamp(0.45rem, 1.6vw, 0.7rem);
+    border: 3px solid var(--secondary-color1);
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.35rem, 1.3vw, 0.6rem);
+    box-sizing: border-box;
 }
 
 .dragging {
@@ -81,26 +81,26 @@
 }
 
 @media (min-width: 1200px) {
-  .aboutSection {
-    max-width: 1200px;
-    padding: 4rem 0rem;
-    gap: 7rem;
-  }
+    .aboutSection {
+        max-width: 1200px;
+        padding: 4rem 0rem;
+        gap: 7rem;
+    }
 }
 
 @media (max-width: 960px) {
-  .aboutSection {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
+    .aboutSection {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
 
-  .wordGridContainer {
-    justify-self: center;
-  }
+    .wordGridContainer {
+        justify-self: center;
+    }
 
-  .textBlock {
-    margin-top: 0;
-  }
+    .textBlock {
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 650px) {
