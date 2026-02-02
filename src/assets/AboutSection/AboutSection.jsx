@@ -342,11 +342,12 @@ export default function AboutSection() {
                             drag.from !== idx;
 
                         const className = [
-                            isDragging ? styles.dragging : "",
+                            isDragging ? `${styles.dragging} isActive` : "",
                             isOver ? styles.over : "",
                             isConnected ? styles.connected : "",
                             solved ? styles.solved : "",
                         ].join(" ");
+
 
                         const style = isDragging
                             ? {
