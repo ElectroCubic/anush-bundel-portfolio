@@ -6,7 +6,13 @@
     -webkit-user-select: none;
     box-sizing: border-box;
     font-family: "Azeret Mono", monospace;
+    -webkit-tap-highlight-color: transparent;
 }
+
+a, button {
+    -webkit-touch-callout: none;
+}
+
 
 html {
     /* scroll-snap-type: y mandatory; */
