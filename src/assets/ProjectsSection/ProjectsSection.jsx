@@ -1,33 +1,45 @@
+import ProjectCard from "../ProjectCard/ProjectCard.jsx";
+import styles from "./ProjectsSection.module.css";
 
-import ProjectCard from "../ProjectCard/ProjectCard.jsx"
-import styles from "./ProjectsSection.module.css"
-
-function ProjectsSection()
-{
-    return(
-        <div className={styles.projectsSection}>
+function ProjectsSection() {
+    return (
+        <section id="projects" className={styles.projectsSection}>
             <div className={styles.headingBar}>
-                <div className={styles.textBlock}>
-                    <h1> Explore My Worlds </h1>
-                    <p> The Cool Stuff I've Worked Upon </p>
-                </div>
+                <h1 className={styles.heading}>Explore My Worlds</h1>
+                <p className={styles.subheading}>The Cool Stuff I’ve Worked Upon</p>
             </div>
 
-            <div className={styles.cardsContainer}>
-                <div className={styles.cardSlots}>
-                    <ProjectCard 
-                        title="Test Project 1" 
-                        description="One liner description that makes absolutely no sense"
-                        altDesc="lol"
+            <div className={styles.cardsViewport}>
+                <div className={styles.cardsRow}>
+                    <ProjectCard
+                        title="Project Title"
+                        description="One line description about the Project. It can be about the genre and/or the hook of the project, etc."
+                        tags={["Godot", "FL Studio", "Solo", "Game Jam", "Puzzle"]}
                     />
-                    <ProjectCard 
-                        title="Test Project 2" 
-                        description="One liner description that makes absolutely no sense"
-                        altDesc="lol"
+                    <ProjectCard
+                        title="Project Title"
+                        description="One line description about the Project. It can be about the genre and/or the hook of the project, etc."
+                        tags={["Godot", "FL Studio", "Android", "Prototype", "Puzzle"]}
+                    />
+                    <ProjectCard
+                        title="Project Title"
+                        description="One line description about the Project. It can be about the genre and/or the hook of the project, etc."
+                        tags={["Python", "Pygame", "Software", "Simulator"]}
+                    />
+                    <ProjectCard
+                        title="Project Title"
+                        description="One line description about the Project. It can be about the genre and/or the hook of the project, etc."
+                        tags={["Godot", "Puzzle", "Programmer", "GDScript"]}
+                    />
+                    <ProjectCard
+                        title="Project Title"
+                        description="One line description about the Project. It can be about the genre and/or the hook of the project, etc."
+                        tags={["Unity", "C#", "Prototype", "Designer", "Puzzle"]}
                     />
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
-export default ProjectsSection
+
+export default ProjectsSection;

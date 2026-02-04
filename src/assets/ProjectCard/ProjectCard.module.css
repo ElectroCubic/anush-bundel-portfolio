@@ -1,29 +1,188 @@
-
 .card {
-    border: 1px solid var(--accent-color2);
-    background-color: var(--card-bg-color);
-    border-radius: 15px;
-    box-sizing: content-box;
-    box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(9, 230, 246, 0.65);
+    background: rgba(14, 11, 39, 0.65);
+    border-radius: 18px;
     overflow: hidden;
-    margin: 15px;
-    display: inline-block;
-    text-align: center;
-    height: 400px;
-    
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
 }
 
-.card h1 {
-    color: var(--text-color1);
-    font-weight: 300;
+.thumbWrap {
+    padding: 0.65rem;
+    background: linear-gradient(90deg, rgba(94, 235, 138, 0.12), rgba(9, 230, 246, 0.12));
 }
 
-.card p {
-    color: var(--text-color2);
-}
-
-.card img {
-    height: 50%;
+.thumb {
     width: 100%;
+    height: 150px;
     object-fit: cover;
+    display: block;
+    border-radius: 14px;
+    border: 2px solid rgba(9, 230, 246, 0.35);
+}
+
+.body {
+    padding: 1rem 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.title {
+    margin: 0;
+    color: var(--accent-color2);
+    font-weight: 500;
+    font-size: 1.1em;
+}
+
+.desc {
+    margin: 0;
+    color: var(--text-color2);
+    font-size: 0.75rem;
+    line-height: 1.55;
+}
+
+.tags {
+    margin-top: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    justify-content: center;
+}
+
+.tag {
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(220, 227, 238, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-color1);
+}
+
+/* Category variants */
+.tagType {
+    border-color: rgba(185, 67, 255, 0.45);
+    background: rgba(185, 67, 255, 0.10);
+    color: rgba(210, 150, 255, 1);
+}
+
+.tagEngine {
+    border-color: rgba(9, 230, 246, 0.45);
+    background: rgba(9, 230, 246, 0.10);
+    color: rgba(150, 245, 255, 1);
+}
+
+.tagTool {
+    border-color: rgba(122, 162, 247, 0.45);
+    background: rgba(122, 162, 247, 0.10);
+    color: rgba(180, 205, 255, 1);
+}
+
+.tagLang {
+    border-color: rgba(94, 235, 138, 0.45);
+    background: rgba(94, 235, 138, 0.10);
+    color: rgba(150, 255, 200, 1);
+}
+
+.tagPlatform {
+    border-color: rgba(255, 170, 70, 0.45);
+    background: rgba(255, 170, 70, 0.10);
+    color: rgba(255, 210, 150, 1);
+}
+
+.tagRole {
+    border-color: rgba(220, 227, 238, 0.25);
+    background: rgba(220, 227, 238, 0.07);
+    color: rgba(220, 227, 238, 0.9);
+}
+
+.tagGenre {
+    border-color: rgba(47, 62, 92, 0.9);
+    background: rgba(47, 62, 92, 0.35);
+    color: rgba(220, 227, 238, 0.85);
+}
+
+.tagStatus {
+    border-color: rgba(94, 235, 138, 0.65);
+    background: rgba(94, 235, 138, 0.08);
+    color: rgba(94, 235, 138, 1);
+}
+
+.tagMisc {
+    border-color: rgba(220, 227, 238, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-color1);
+}
+
+
+/* ThumbWrap background by inferred type */
+.typeGameJam {
+    background: linear-gradient(
+        135deg,
+        rgba(185, 67, 255, 0.28),
+        rgba(185, 67, 255, 0.10)
+    );
+}
+
+.typePrototype {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 170, 70, 0.28),
+        rgba(255, 170, 70, 0.10)
+    );
+}
+
+.typeSoftware {
+    background: linear-gradient(
+        135deg,
+        rgba(94, 235, 138, 0.28),
+        rgba(94, 235, 138, 0.10)
+    );
+}
+
+.typeOther {
+    background: linear-gradient(
+        135deg,
+        rgba(9, 230, 246, 0.22),
+        rgba(9, 230, 246, 0.08)
+    );
+}
+
+
+.cta {
+    margin-top: 0.75rem;
+    align-self: center;
+
+    background: transparent;
+    color: var(--text-color1);
+    border: 1px solid rgba(9, 230, 246, 0.55);
+    border-radius: 10px;
+
+    padding: 0.75rem 2.25rem;
+    font: inherit;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+@media (hover: hover) {
+    .card:hover {
+        border-color: var(--accent-color1);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+    }
+
+    .cta:hover {
+        border-color: rgba(9, 230, 246, 0.95);
+        box-shadow: 0 0 14px rgba(9, 230, 246, 0.28);
+        transform: translateY(-1px);
+    }
+}
+
+.card:active {
+    transform: translateY(-2px);
 }
