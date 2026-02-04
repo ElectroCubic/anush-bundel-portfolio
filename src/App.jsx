@@ -4,10 +4,13 @@ import HeroSection from "./assets/HeroSection/HeroSection.jsx"
 import AboutSection from "./assets/AboutSection/AboutSection.jsx"
 import ProjectsSection from "./assets/ProjectsSection/ProjectsSection.jsx";
 
+import WipBanner from "./assets/WipBanner/WipBanner.jsx";
+
 function App() {
     return(
         <>
             <NavBar />
+            <WipBanner />
             <section id="home" style={{ minHeight: "100vh" }}>
                 <HeroSection />
             </section>
