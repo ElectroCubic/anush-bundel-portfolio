@@ -7,7 +7,7 @@
 .headingBar {
     text-align: center;
     padding: 3.25rem 1rem 2.75rem;
-    border-bottom: 2px solid rgba(9, 230, 246, 0.55);
+    border-bottom: 2px solid var(--accent-color2);
     border-bottom-left-radius: 48px;
     border-bottom-right-radius: 48px;
 }
@@ -44,12 +44,9 @@
     grid-auto-columns: minmax(250px, 1fr);
     gap: 1.1rem;
     align-items: stretch;
-
-    /* Gives breathing room when scrolling horizontally */
     padding: 0 0.25rem;
 }
 
-/* Desktop: force 5 visible cards if there’s room */
 @media (min-width: 1300px) {
     .cardsRow {
         grid-auto-columns: 1fr;
