@@ -58,11 +58,16 @@
 
 .icon {
     font-size: 1.2rem;
-    transition: transform 0.2s ease;
 }
 
 .heroCta:hover .icon {
-    transform: translateX(5px);
+    animation: arrowLoop 0.9s ease infinite forwards;
+}
+
+@keyframes arrowLoop {
+    0% { transform: translateX(0px); }
+    50% { transform: translateX(5px); }
+    100% { transform: translateX(0px); }
 }
 
 .resume {

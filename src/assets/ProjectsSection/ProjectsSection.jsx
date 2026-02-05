@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import ProjectCard from "../ProjectCard/ProjectCard.jsx";
 import styles from "./ProjectsSection.module.css";
 import profilePic from "../ElectroCubicLogo_New.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(() => {
@@ -79,14 +81,16 @@ function ProjectsSection() {
   const desktopCardRefs = useRef([]);
   const mobileCardRef = useRef(null);
 
-  // ✅ RAF refs MUST be inside the component
   const desktopRaf1Ref = useRef(0);
   const desktopRaf2Ref = useRef(0);
   const mobileRaf1Ref = useRef(0);
   const mobileRaf2Ref = useRef(0);
 
+  const settleTimeoutRef = useRef(null);
+
+  // idle | prep | deal | settled
+  const [phase, setPhase] = useState("idle");
   const [triggered, setTriggered] = useState(false);
-  const [phase, setPhase] = useState("idle"); // idle | prep | deal
 
   const [shuffledProjects, setShuffledProjects] = useState(() => projects);
 
@@ -105,23 +109,24 @@ function ProjectsSection() {
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setTriggered(true);
-          setPhase("prep");
+        if (!entry.isIntersecting) return;
 
-          const shuffled = shuffleArray(projects);
-          setShuffledProjects(shuffled);
+        setTriggered(true);
+        setPhase("prep");
 
-          const duration = 9.5; // must match CSS wobbleLoop duration
-          setWobblePhaseByIndex(
-            shuffled.map(() => `-${(Math.random() * duration).toFixed(3)}s`)
-          );
+        const shuffled = shuffleArray(projects);
+        setShuffledProjects(shuffled);
 
-          setActiveIndex(0);
-          setPoppedId(null);
+        // Keep this even if wobble is off; harmless.
+        const duration = 7.5;
+        setWobblePhaseByIndex(
+          shuffled.map(() => `-${(Math.random() * duration).toFixed(3)}s`)
+        );
 
-          io.disconnect();
-        }
+        setActiveIndex(0);
+        setPoppedId(null);
+
+        io.disconnect();
       },
       { threshold: 0.25 }
     );
@@ -144,6 +149,20 @@ function ProjectsSection() {
     cardEl.style.setProperty("--deal-y", `${dy}px`);
   };
 
+  const scheduleSettle = (isMobileNow) => {
+    if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
+
+    // Must match your CSS durations:
+    // transform 440ms + stagger (i*140ms), 5 cards => max delay 560ms
+    const desktopTotal = 440 + 560 + 60; // small buffer
+    const mobileTotal = 440 + 60;
+
+    settleTimeoutRef.current = setTimeout(
+      () => setPhase("settled"),
+      isMobileNow ? mobileTotal : desktopTotal
+    );
+  };
+
   // Desktop deal
   useLayoutEffect(() => {
     if (!triggered) return;
@@ -155,7 +174,10 @@ function ProjectsSection() {
     sectionRef.current?.getBoundingClientRect();
 
     desktopRaf1Ref.current = requestAnimationFrame(() => {
-      desktopRaf2Ref.current = requestAnimationFrame(() => setPhase("deal"));
+      desktopRaf2Ref.current = requestAnimationFrame(() => {
+        setPhase("deal");
+        scheduleSettle(false);
+      });
     });
 
     return () => {
@@ -173,13 +195,16 @@ function ProjectsSection() {
 
     mobileRaf1Ref.current = requestAnimationFrame(() => {
       const cardEl = mobileCardRef.current;
-      if (!cardEl) return; // during remount (key change), it can be null
+      if (!cardEl) return;
 
       setOffsets(cardEl);
       cardEl.getBoundingClientRect();
       sectionRef.current?.getBoundingClientRect();
 
-      mobileRaf2Ref.current = requestAnimationFrame(() => setPhase("deal"));
+      mobileRaf2Ref.current = requestAnimationFrame(() => {
+        setPhase("deal");
+        scheduleSettle(true);
+      });
     });
 
     return () => {
@@ -187,6 +212,12 @@ function ProjectsSection() {
       cancelAnimationFrame(mobileRaf2Ref.current);
     };
   }, [activeIndex, triggered, isMobile]);
+
+  useEffect(() => {
+    return () => {
+      if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
+    };
+  }, []);
 
   const prev = () =>
     setActiveIndex((i) => (i - 1 + shuffledProjects.length) % shuffledProjects.length);
@@ -196,6 +227,15 @@ function ProjectsSection() {
   const onCardTap = (id) => {
     setPoppedId((cur) => (cur === id ? null : id));
   };
+
+  const cardPhaseClass =
+    phase === "prep"
+      ? styles.prep
+      : phase === "deal"
+      ? styles.dealing
+      : phase === "settled"
+      ? styles.settled
+      : "";
 
   return (
     <section
@@ -226,8 +266,7 @@ function ProjectsSection() {
                   }}
                   className={[
                     styles.dealCard,
-                    phase === "prep" ? styles.prep : "",
-                    phase === "deal" ? styles.deal : "",
+                    cardPhaseClass,
                     poppedId === p.id ? styles.popped : "",
                   ].join(" ")}
                   style={{
@@ -249,7 +288,7 @@ function ProjectsSection() {
               aria-label="Previous project"
               disabled={!triggered}
             >
-              &lt;
+              <FontAwesomeIcon icon={faArrowLeft} className={styles.icon} />
             </button>
 
             <div className={styles.mobileCardSlot}>
@@ -266,8 +305,7 @@ function ProjectsSection() {
                 className={[
                   styles.dealCard,
                   styles.mobileCard,
-                  phase === "prep" ? styles.prep : "",
-                  phase === "deal" ? styles.deal : "",
+                  cardPhaseClass,
                   poppedId === active.id ? styles.popped : "",
                 ].join(" ")}
                 style={{
@@ -284,7 +322,7 @@ function ProjectsSection() {
               aria-label="Next project"
               disabled={!triggered}
             >
-              &gt;
+              <FontAwesomeIcon icon={faArrowRight} className={styles.icon} />
             </button>
 
             <div className={styles.dots} aria-hidden="true">
