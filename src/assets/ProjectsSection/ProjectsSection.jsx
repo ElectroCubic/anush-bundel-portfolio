@@ -227,7 +227,6 @@ function ProjectsSection() {
   };
 
   const onCardTap = (id) => {
-    // pop should feel snappy always; remove any “deal delay” influence via CSS
     setPoppedId((cur) => (cur === id ? null : id));
   };
 
