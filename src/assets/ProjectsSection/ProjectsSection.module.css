@@ -25,20 +25,58 @@
     font-size: clamp(1.05rem, 1.4vw, 1.6rem);
 }
 
+/* ===== Viewport ===== */
 .cardsViewport {
+    position: relative;
     margin-top: 3rem;
-    overflow-x: auto;
     padding-bottom: 0.5rem;
-
+    overflow: visible;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-
 .cardsViewport::-webkit-scrollbar {
     display: none;
 }
 
+.cardsScroller {
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.cardsScroller::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* ===== Deck ===== */
+.deck {
+  width: 120px;
+  height: 190px;
+  border-radius: 10px;
+  border: 1px solid rgba(9, 230, 246, 0.35);
+  background: var(--bg-color1);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.55);
+
+  margin: 0.8rem auto 1.25rem;
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+}
+
+.deck img {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 999px;
+    border: 1px solid var(--accent-color2);
+}
+
 .cardsRow {
+    position: relative;
+    z-index: 2;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(250px, 1fr);
@@ -47,15 +85,161 @@
     padding: 0 0.25rem;
 }
 
+@property --wobble-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.dealCard {
+  will-change: transform, opacity;
+  transform-origin: center;
+  --wobble-angle: 0deg;
+}
+
+/* Start at deck */
+.prep {
+  opacity: 1;
+  transform:
+    translate(var(--deal-x, 0px), var(--deal-y, 0px))
+    scaleX(0.425)
+    scaleY(0.39);
+}
+
+/* Deal into slot */
+.deal {
+  opacity: 1;
+  transform:
+    translate(0, 0)
+    rotate(var(--wobble-angle))
+    scale(1);
+
+  transition:
+    transform 250ms cubic-bezier(0.075, 0.82, 0.165, 1) var(--deal-delay, 0ms),
+    opacity 220ms ease-out var(--deal-delay, 0ms);
+
+  /* Wobble starts AFTER deal, but it animates the variable, not transform */
+  animation: wobbleAngle 3.2s ease-in-out infinite;
+  animation-delay: calc(var(--deal-delay, 0ms) + 900ms + var(--wobble-phase, 0s));
+  animation-fill-mode: both;
+}
+
+/* Animate the angle variable */
+@keyframes wobbleAngle {
+  0%   { --wobble-angle: 0deg; }
+  35%  { --wobble-angle: 0.55deg; }
+  65%  { --wobble-angle: -0.35deg; }
+  100% { --wobble-angle: 0deg; }
+}
+
+
+
 @media (min-width: 1300px) {
     .cardsRow {
         grid-auto-columns: 1fr;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         grid-auto-flow: unset;
-        overflow: visible;
     }
 
-    .cardsViewport {
+    .cardsScroller {
         overflow: visible;
     }
 }
+
+/* ===== Mobile carousel ===== */
+.mobileWrap {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.mobileCardSlot {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.mobileCard {
+    width: min(92vw, 380px);
+}
+
+.arrow {
+    height: 44px;
+    width: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(9, 230, 246, 0.35);
+    background: rgba(14, 11, 39, 0.55);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+    color: var(--text-color1);
+    font-size: 28px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.arrow:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.arrow:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.arrow:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+}
+
+.dots {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.32;
+    transform: scale(1);
+}
+
+.dotActive {
+    opacity: 0.85;
+    transform: scale(1.15);
+}
+
+/* Only show carousel at <= 640px */
+@media (min-width: 641px) {
+    .mobileWrap {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prep,
+  .deal {
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+  .deck,
+  .deckIn {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+

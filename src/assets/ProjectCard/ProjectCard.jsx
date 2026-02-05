@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 import styles from "./ProjectCard.module.css";
 import placeholderPic from "../Placeholder.png";
 
@@ -55,7 +56,7 @@ const TAG_CATEGORY_BY_NAME = {
     Platformer: "genre",
     Roguelike: "genre",
 
-    // Status (optional if you tag it)
+    // Status
     Completed: "status",
     "In Progress": "status",
 };
@@ -63,18 +64,9 @@ const TAG_CATEGORY_BY_NAME = {
 const TYPE_TAG_PRIORITY = ["Game Jam", "Prototype", "Software"];
 
 function getTypeFromTags(tags) {
-    if (!Array.isArray(tags) || tags.length === 0) {
-        return "Other";
-    }
-
+    if (!Array.isArray(tags) || tags.length === 0) return "Other";
     const tagSet = new Set(tags);
-
-    for (const t of TYPE_TAG_PRIORITY) {
-        if (tagSet.has(t)) {
-            return t;
-        }
-    }
-
+    for (const t of TYPE_TAG_PRIORITY) if (tagSet.has(t)) return t;
     return "Other";
 }
 
@@ -105,18 +97,27 @@ function getTagClass(tag) {
     return TAG_CATEGORY_CLASS[category] || styles.tagMisc;
 }
 
-function ProjectCard({
-    imgUrl = placeholderPic,
-    title = "",
-    description = "",
-    altDesc = "Project thumbnail",
-    tags = [],
-}) {
+const ProjectCard = forwardRef(function ProjectCard(
+    {
+        imgUrl = placeholderPic,
+        title = "",
+        description = "",
+        altDesc = "Project thumbnail",
+        tags = [],
+        className = "",
+        style = undefined,
+    },
+    ref
+) {
     const type = getTypeFromTags(tags);
     const typeClass = getTypeClass(type);
 
     return (
-        <article className={styles.card}>
+        <article
+            ref={ref}
+            className={`${styles.card} ${className}`}
+            style={style}
+        >
             <div className={`${styles.thumbWrap} ${typeClass}`}>
                 <img className={styles.thumb} src={imgUrl} alt={altDesc} />
             </div>
@@ -147,7 +148,7 @@ function ProjectCard({
             </div>
         </article>
     );
-}
+});
 
 ProjectCard.propTypes = {
     imgUrl: PropTypes.string,
@@ -155,6 +156,8 @@ ProjectCard.propTypes = {
     description: PropTypes.string,
     altDesc: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
+    className: PropTypes.string,
+    style: PropTypes.object,
 };
 
-export default ProjectCard
+export default ProjectCard;

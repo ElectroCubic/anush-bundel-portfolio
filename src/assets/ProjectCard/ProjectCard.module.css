@@ -186,3 +186,22 @@
 .card:active {
     transform: translateY(-2px);
 }
+
+@media (max-width: 640px) {
+    .thumb {
+        height: 170px;
+    }
+
+    .desc {
+        font-size: 0.85rem;
+    }
+
+    .title {
+        font-size: 1.15em;
+    }
+
+    .cta {
+        padding: 0.8rem 2.2rem;
+    }
+}
+
