@@ -3,25 +3,7 @@ import ProjectCard from "../ProjectCard/ProjectCard.jsx";
 import styles from "./ProjectsSection.module.css";
 import profilePic from "../ElectroCubicLogo_New.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
-function useMediaQuery(query) {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia(query).matches;
-  });
-
-  useEffect(() => {
-    const mql = window.matchMedia(query);
-    const onChange = () => setMatches(mql.matches);
-    onChange();
-    mql.addEventListener?.("change", onChange) ?? mql.addListener(onChange);
-    return () =>
-      mql.removeEventListener?.("change", onChange) ?? mql.removeListener(onChange);
-  }, [query]);
-
-  return matches;
-}
+import { faArrowRight, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 
 function shuffleArray(arr) {
   const a = [...arr];
@@ -32,77 +14,76 @@ function shuffleArray(arr) {
   return a;
 }
 
+function clamp(n, a, b) {
+  return Math.max(a, Math.min(b, n));
+}
+
+function getWindowCircular(list, start, k) {
+  const out = [];
+  const n = list.length;
+  for (let i = 0; i < k; i++) out.push(list[(start + i) % n]);
+  return out;
+}
+
 function ProjectsSection() {
   const projects = useMemo(
     () => [
       {
         id: "p1",
         title: "Project Title",
-        description:
-          "One line description about the Project. It can be about the genre and/or the hook of the project, etc.",
+        description: "One line description about the Project...",
         tags: ["Godot", "FL Studio", "Solo", "Game Jam", "Puzzle"],
       },
       {
         id: "p2",
         title: "Project Title",
-        description:
-          "One line description about the Project. It can be about the genre and/or the hook of the project, etc.",
+        description: "One line description about the Project...",
         tags: ["Godot", "FL Studio", "Android", "Prototype", "Puzzle"],
       },
       {
         id: "p3",
         title: "Project Title",
-        description:
-          "One line description about the Project. It can be about the genre and/or the hook of the project, etc.",
+        description: "One line description about the Project...",
         tags: ["Python", "Pygame", "Software", "Simulator"],
       },
       {
         id: "p4",
         title: "Project Title",
-        description:
-          "One line description about the Project. It can be about the genre and/or the hook of the project, etc.",
+        description: "One line description about the Project...",
         tags: ["Godot", "Puzzle", "Programmer", "GDScript"],
       },
       {
         id: "p5",
         title: "Project Title",
-        description:
-          "One line description about the Project. It can be about the genre and/or the hook of the project, etc.",
+        description: "One line description about the Project...",
         tags: ["Unity", "C#", "Prototype", "Designer", "Puzzle"],
       },
     ],
     []
   );
 
-  const isMobile = useMediaQuery("(max-width: 640px)");
-
   const sectionRef = useRef(null);
   const deckRef = useRef(null);
-  const desktopCardRefs = useRef([]);
-  const mobileCardRef = useRef(null);
+  const carouselRef = useRef(null);
 
-  const desktopRaf1Ref = useRef(0);
-  const desktopRaf2Ref = useRef(0);
-  const mobileRaf1Ref = useRef(0);
-  const mobileRaf2Ref = useRef(0);
-
+  const cardRefs = useRef([]);
+  const raf1 = useRef(0);
+  const raf2 = useRef(0);
   const settleTimeoutRef = useRef(null);
 
-  // idle | prep | deal | settled
-  const [phase, setPhase] = useState("idle");
   const [triggered, setTriggered] = useState(false);
+  const [phase, setPhase] = useState("idle"); // idle | prep | dealing | settled
+  const [poppedId, setPoppedId] = useState(null);
 
   const [shuffledProjects, setShuffledProjects] = useState(() => projects);
 
-  const [wobblePhaseByIndex, setWobblePhaseByIndex] = useState(() =>
-    projects.map(() => "0s")
-  );
+  const [cardsPerPage, setCardsPerPage] = useState(1);
+  const [pageStart, setPageStart] = useState(0);
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const active = shuffledProjects[activeIndex];
+  // Optional: keep wobble phases ready (even if wobble is off in CSS)
+  const [wobblePhaseById, setWobblePhaseById] = useState(() => new Map());
 
-  const [poppedId, setPoppedId] = useState(null);
-
+  // Trigger once when section enters
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -111,19 +92,19 @@ function ProjectsSection() {
       ([entry]) => {
         if (!entry.isIntersecting) return;
 
-        setTriggered(true);
-        setPhase("prep");
-
         const shuffled = shuffleArray(projects);
         setShuffledProjects(shuffled);
 
-        // Keep this even if wobble is off; harmless.
         const duration = 7.5;
-        setWobblePhaseByIndex(
-          shuffled.map(() => `-${(Math.random() * duration).toFixed(3)}s`)
+        const m = new Map();
+        shuffled.forEach((p) =>
+          m.set(p.id, `-${(Math.random() * duration).toFixed(3)}s`)
         );
+        setWobblePhaseById(m);
 
-        setActiveIndex(0);
+        setTriggered(true);
+        setPhase("prep");
+        setPageStart(0);
         setPoppedId(null);
 
         io.disconnect();
@@ -134,6 +115,49 @@ function ProjectsSection() {
     io.observe(el);
     return () => io.disconnect();
   }, [projects]);
+
+  // Responsive: compute how many cards fit
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    // Keep these in sync with CSS
+    const arrowW = 44;
+    const gap = 10;
+
+    // Design constraints
+    const minCard = 250;
+    const maxCards = 5;
+
+    const ro = new ResizeObserver(([entry]) => {
+      const fullW = entry.contentRect.width;
+
+      // Space available for the cards area (subtract arrows + gaps)
+      const cardsAreaW = Math.max(0, fullW - (arrowW * 2 + gap * 2));
+
+      const raw = Math.floor((cardsAreaW + gap) / (minCard + gap));
+      const k = clamp(raw || 1, 1, maxCards);
+
+      setCardsPerPage(k);
+
+      // snap start to multiple of k (feels consistent when resizing)
+      setPageStart((s) => {
+        const n = shuffledProjects.length || 1;
+        const snapped = Math.floor(s / k) * k;
+        return ((snapped % n) + n) % n;
+      });
+    });
+
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [shuffledProjects.length]);
+
+  const visible = useMemo(() => {
+    const n = shuffledProjects.length;
+    if (n === 0) return [];
+    const k = Math.min(cardsPerPage, n);
+    return getWindowCircular(shuffledProjects, pageStart, k);
+  }, [shuffledProjects, pageStart, cardsPerPage]);
 
   const setOffsets = (cardEl) => {
     const deckEl = deckRef.current;
@@ -149,89 +173,68 @@ function ProjectsSection() {
     cardEl.style.setProperty("--deal-y", `${dy}px`);
   };
 
-  const scheduleSettle = (isMobileNow) => {
+  const scheduleSettle = () => {
     if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
 
-    // Must match your CSS durations:
-    // transform 440ms + stagger (i*140ms), 5 cards => max delay 560ms
-    const desktopTotal = 440 + 560 + 60; // small buffer
-    const mobileTotal = 440 + 60;
+    const k = visible.length || 1;
+    const total = 440 + (k - 1) * 140 + 80; // deal time + stagger + small buffer
 
-    settleTimeoutRef.current = setTimeout(
-      () => setPhase("settled"),
-      isMobileNow ? mobileTotal : desktopTotal
-    );
+    settleTimeoutRef.current = setTimeout(() => setPhase("settled"), total);
   };
 
-  // Desktop deal
+  // Deal whenever page changes OR cardsPerPage changes
   useLayoutEffect(() => {
     if (!triggered) return;
-    if (isMobile) return;
-    if (phase !== "prep") return;
-
-    shuffledProjects.forEach((_, i) => setOffsets(desktopCardRefs.current[i]));
-    desktopCardRefs.current.forEach((el) => el?.getBoundingClientRect());
-    sectionRef.current?.getBoundingClientRect();
-
-    desktopRaf1Ref.current = requestAnimationFrame(() => {
-      desktopRaf2Ref.current = requestAnimationFrame(() => {
-        setPhase("deal");
-        scheduleSettle(false);
-      });
-    });
-
-    return () => {
-      cancelAnimationFrame(desktopRaf1Ref.current);
-      cancelAnimationFrame(desktopRaf2Ref.current);
-    };
-  }, [triggered, isMobile, phase, shuffledProjects]);
-
-  // Mobile re-deal on arrow taps
-  useLayoutEffect(() => {
-    if (!triggered) return;
-    if (!isMobile) return;
+    if (!visible.length) return;
 
     setPhase("prep");
 
-    mobileRaf1Ref.current = requestAnimationFrame(() => {
-      const cardEl = mobileCardRef.current;
-      if (!cardEl) return;
-
-      setOffsets(cardEl);
-      cardEl.getBoundingClientRect();
+    raf1.current = requestAnimationFrame(() => {
+      // Ensure refs are available
+      visible.forEach((_, i) => setOffsets(cardRefs.current[i]));
+      cardRefs.current.forEach((el) => el?.getBoundingClientRect());
       sectionRef.current?.getBoundingClientRect();
 
-      mobileRaf2Ref.current = requestAnimationFrame(() => {
-        setPhase("deal");
-        scheduleSettle(true);
+      raf2.current = requestAnimationFrame(() => {
+        setPhase("dealing");
+        scheduleSettle();
       });
     });
 
     return () => {
-      cancelAnimationFrame(mobileRaf1Ref.current);
-      cancelAnimationFrame(mobileRaf2Ref.current);
-    };
-  }, [activeIndex, triggered, isMobile]);
-
-  useEffect(() => {
-    return () => {
+      cancelAnimationFrame(raf1.current);
+      cancelAnimationFrame(raf2.current);
       if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
     };
-  }, []);
+  }, [triggered, pageStart, cardsPerPage, visible.length]);
 
-  const prev = () =>
-    setActiveIndex((i) => (i - 1 + shuffledProjects.length) % shuffledProjects.length);
-  const next = () =>
-    setActiveIndex((i) => (i + 1) % shuffledProjects.length);
+  const prev = () => {
+    setPoppedId(null);
+    setPageStart((s) => {
+      const n = shuffledProjects.length || 1;
+      const k = Math.min(cardsPerPage, n);
+      return (s - k + n) % n;
+    });
+  };
+
+  const next = () => {
+    setPoppedId(null);
+    setPageStart((s) => {
+      const n = shuffledProjects.length || 1;
+      const k = Math.min(cardsPerPage, n);
+      return (s + k) % n;
+    });
+  };
 
   const onCardTap = (id) => {
+    // pop should feel snappy always; remove any “deal delay” influence via CSS
     setPoppedId((cur) => (cur === id ? null : id));
   };
 
-  const cardPhaseClass =
+  const phaseClass =
     phase === "prep"
       ? styles.prep
-      : phase === "deal"
+      : phase === "dealing"
       ? styles.dealing
       : phase === "settled"
       ? styles.settled
@@ -246,95 +249,59 @@ function ProjectsSection() {
     >
       <div className={styles.headingBar}>
         <h1 className={styles.heading}>Explore My Worlds</h1>
-        <p className={styles.subheading}>The Cool Stuff I've Worked Upon</p>
+        <p className={styles.subheading}>The Cool Stuff I’ve Worked Upon</p>
       </div>
 
       <div className={styles.cardsViewport}>
-        {!isMobile && (
-          <div className={styles.cardsScroller}>
-            <div className={styles.cardsRow}>
-              {shuffledProjects.map((p, i) => (
-                <ProjectCard
-                  key={p.id}
-                  ref={(el) => (desktopCardRefs.current[i] = el)}
-                  title={p.title}
-                  description={p.description}
-                  tags={p.tags}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onCardTap(p.id);
-                  }}
-                  className={[
-                    styles.dealCard,
-                    cardPhaseClass,
-                    poppedId === p.id ? styles.popped : "",
-                  ].join(" ")}
-                  style={{
-                    "--deal-delay": `${i * 140}ms`,
-                    "--wobble-phase": wobblePhaseByIndex[i] ?? "0s",
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+        <div ref={carouselRef} className={styles.carousel}>
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={prev}
+            aria-label="Previous projects"
+            disabled={!triggered || shuffledProjects.length <= 1}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className={styles.icon} />
+          </button>
 
-        {isMobile && active && (
-          <div className={styles.mobileWrap} onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className={styles.arrow}
-              onClick={prev}
-              aria-label="Previous project"
-              disabled={!triggered}
-            >
-              <FontAwesomeIcon icon={faArrowLeft} className={styles.icon} />
-            </button>
-
-            <div className={styles.mobileCardSlot}>
+          <div
+            className={styles.cardsRow}
+            style={{ "--cols": visible.length }}
+          >
+            {visible.map((p, i) => (
               <ProjectCard
-                key={active.id}
-                ref={mobileCardRef}
-                title={active.title}
-                description={active.description}
-                tags={active.tags}
+                key={p.id}
+                ref={(el) => (cardRefs.current[i] = el)}
+                title={p.title}
+                description={p.description}
+                tags={p.tags}
                 onClick={(e) => {
                   e.stopPropagation();
-                  onCardTap(active.id);
+                  onCardTap(p.id);
                 }}
                 className={[
                   styles.dealCard,
-                  styles.mobileCard,
-                  cardPhaseClass,
-                  poppedId === active.id ? styles.popped : "",
+                  phaseClass,
+                  poppedId === p.id ? styles.popped : "",
                 ].join(" ")}
                 style={{
-                  "--deal-delay": `0ms`,
-                  "--wobble-phase": wobblePhaseByIndex[activeIndex] ?? "0s",
+                  "--deal-delay": `${i * 140}ms`,
+                  "--wobble-phase": wobblePhaseById.get(p.id) ?? "0s",
                 }}
               />
-            </div>
-
-            <button
-              type="button"
-              className={styles.arrow}
-              onClick={next}
-              aria-label="Next project"
-              disabled={!triggered}
-            >
-              <FontAwesomeIcon icon={faArrowRight} className={styles.icon} />
-            </button>
-
-            <div className={styles.dots} aria-hidden="true">
-              {shuffledProjects.map((p, i) => (
-                <span
-                  key={p.id}
-                  className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ""}`}
-                />
-              ))}
-            </div>
+            ))}
           </div>
-        )}
+
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={next}
+            aria-label="Next projects"
+            disabled={!triggered || shuffledProjects.length <= 1}
+          >
+            <FontAwesomeIcon icon={faArrowRight} className={styles.icon} />
+          </button>
+        </div>
 
         <div ref={deckRef} className={styles.deck} aria-hidden="true">
           <img src={profilePic} alt="" />
