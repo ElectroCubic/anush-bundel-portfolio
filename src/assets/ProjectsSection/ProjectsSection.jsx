@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import ProjectCard from "../ProjectCard/ProjectCard.jsx"
-import styles from "./ProjectsSection.module.css"
-import profilePic from "../ElectroCubicLogo_New.png"
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import ProjectCard from "../ProjectCard/ProjectCard.jsx";
+import styles from "./ProjectsSection.module.css";
+import profilePic from "../ElectroCubicLogo_New.png";
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(() => {
@@ -14,10 +14,20 @@ function useMediaQuery(query) {
     const onChange = () => setMatches(mql.matches);
     onChange();
     mql.addEventListener?.("change", onChange) ?? mql.addListener(onChange);
-    return () => mql.removeEventListener?.("change", onChange) ?? mql.removeListener(onChange);
+    return () =>
+      mql.removeEventListener?.("change", onChange) ?? mql.removeListener(onChange);
   }, [query]);
 
   return matches;
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function ProjectsSection() {
@@ -69,11 +79,26 @@ function ProjectsSection() {
   const desktopCardRefs = useRef([]);
   const mobileCardRef = useRef(null);
 
+  // ✅ RAF refs MUST be inside the component
+  const desktopRaf1Ref = useRef(0);
+  const desktopRaf2Ref = useRef(0);
+  const mobileRaf1Ref = useRef(0);
+  const mobileRaf2Ref = useRef(0);
+
   const [triggered, setTriggered] = useState(false);
   const [phase, setPhase] = useState("idle"); // idle | prep | deal
-  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Trigger once on reach
+  const [shuffledProjects, setShuffledProjects] = useState(() => projects);
+
+  const [wobblePhaseByIndex, setWobblePhaseByIndex] = useState(() =>
+    projects.map(() => "0s")
+  );
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = shuffledProjects[activeIndex];
+
+  const [poppedId, setPoppedId] = useState(null);
+
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -83,6 +108,18 @@ function ProjectsSection() {
         if (entry.isIntersecting) {
           setTriggered(true);
           setPhase("prep");
+
+          const shuffled = shuffleArray(projects);
+          setShuffledProjects(shuffled);
+
+          const duration = 9.5; // must match CSS wobbleLoop duration
+          setWobblePhaseByIndex(
+            shuffled.map(() => `-${(Math.random() * duration).toFixed(3)}s`)
+          );
+
+          setActiveIndex(0);
+          setPoppedId(null);
+
           io.disconnect();
         }
       },
@@ -91,7 +128,7 @@ function ProjectsSection() {
 
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [projects]);
 
   const setOffsets = (cardEl) => {
     const deckEl = deckRef.current;
@@ -100,92 +137,102 @@ function ProjectsSection() {
     const deck = deckEl.getBoundingClientRect();
     const card = cardEl.getBoundingClientRect();
 
-    const dx = (deck.left + deck.width / 2) - (card.left + card.width / 2);
-    const dy = (deck.top + deck.height / 2) - (card.top + card.height / 2);
+    const dx = deck.left + deck.width / 2 - (card.left + card.width / 2);
+    const dy = deck.top + deck.height / 2 - (card.top + card.height / 2);
 
     cardEl.style.setProperty("--deal-x", `${dx}px`);
     cardEl.style.setProperty("--deal-y", `${dy}px`);
   };
 
-    useLayoutEffect(() => {
+  // Desktop deal
+  useLayoutEffect(() => {
     if (!triggered) return;
     if (isMobile) return;
     if (phase !== "prep") return;
 
-    projects.forEach((_, i) => setOffsets(desktopCardRefs.current[i]));
+    shuffledProjects.forEach((_, i) => setOffsets(desktopCardRefs.current[i]));
     desktopCardRefs.current.forEach((el) => el?.getBoundingClientRect());
-    sectionRef.current?.getBoundingClientRect(); // extra commit
+    sectionRef.current?.getBoundingClientRect();
 
-    let raf1 = requestAnimationFrame(() => {
-        let raf2 = requestAnimationFrame(() => setPhase("deal"));
-        desktopCardRefs.current._raf2 = raf2;
+    desktopRaf1Ref.current = requestAnimationFrame(() => {
+      desktopRaf2Ref.current = requestAnimationFrame(() => setPhase("deal"));
     });
-    desktopCardRefs.current._raf1 = raf1;
 
     return () => {
-        cancelAnimationFrame(desktopCardRefs.current._raf1);
-        cancelAnimationFrame(desktopCardRefs.current._raf2);
+      cancelAnimationFrame(desktopRaf1Ref.current);
+      cancelAnimationFrame(desktopRaf2Ref.current);
     };
-    }, [triggered, isMobile, phase, projects]);
+  }, [triggered, isMobile, phase, shuffledProjects]);
 
-
-  // Mobile: whenever activeIndex changes, re-deal that single card
-    useLayoutEffect(() => {
+  // Mobile re-deal on arrow taps
+  useLayoutEffect(() => {
     if (!triggered) return;
     if (!isMobile) return;
 
     setPhase("prep");
 
-    let raf1 = requestAnimationFrame(() => {
-        setOffsets(mobileCardRef.current);
-        mobileCardRef.current?.getBoundingClientRect();
-        sectionRef.current?.getBoundingClientRect();
+    mobileRaf1Ref.current = requestAnimationFrame(() => {
+      const cardEl = mobileCardRef.current;
+      if (!cardEl) return; // during remount (key change), it can be null
 
-        let raf2 = requestAnimationFrame(() => setPhase("deal"));
-        mobileCardRef.current._raf2 = raf2;
+      setOffsets(cardEl);
+      cardEl.getBoundingClientRect();
+      sectionRef.current?.getBoundingClientRect();
+
+      mobileRaf2Ref.current = requestAnimationFrame(() => setPhase("deal"));
     });
 
-    mobileCardRef.current._raf1 = raf1;
-
     return () => {
-        cancelAnimationFrame(mobileCardRef.current._raf1);
-        cancelAnimationFrame(mobileCardRef.current._raf2);
+      cancelAnimationFrame(mobileRaf1Ref.current);
+      cancelAnimationFrame(mobileRaf2Ref.current);
     };
-    }, [activeIndex, triggered, isMobile]);
+  }, [activeIndex, triggered, isMobile]);
 
+  const prev = () =>
+    setActiveIndex((i) => (i - 1 + shuffledProjects.length) % shuffledProjects.length);
+  const next = () =>
+    setActiveIndex((i) => (i + 1) % shuffledProjects.length);
 
-  const prev = () => setActiveIndex((i) => (i - 1 + projects.length) % projects.length);
-  const next = () => setActiveIndex((i) => (i + 1) % projects.length);
-
-  const active = projects[activeIndex];
+  const onCardTap = (id) => {
+    setPoppedId((cur) => (cur === id ? null : id));
+  };
 
   return (
-    <section ref={sectionRef} id="projects" className={styles.projectsSection}>
+    <section
+      ref={sectionRef}
+      id="projects"
+      className={styles.projectsSection}
+      onClick={() => setPoppedId(null)}
+    >
       <div className={styles.headingBar}>
         <h1 className={styles.heading}>Explore My Worlds</h1>
-        <p className={styles.subheading}>The Cool Stuff I’ve Worked Upon</p>
+        <p className={styles.subheading}>The Cool Stuff I've Worked Upon</p>
       </div>
 
       <div className={styles.cardsViewport}>
-        {/* DESKTOP/TABLET */}
         {!isMobile && (
           <div className={styles.cardsScroller}>
             <div className={styles.cardsRow}>
-              {projects.map((p, i) => (
+              {shuffledProjects.map((p, i) => (
                 <ProjectCard
                   key={p.id}
                   ref={(el) => (desktopCardRefs.current[i] = el)}
                   title={p.title}
                   description={p.description}
                   tags={p.tags}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCardTap(p.id);
+                  }}
                   className={[
                     styles.dealCard,
                     phase === "prep" ? styles.prep : "",
                     phase === "deal" ? styles.deal : "",
+                    poppedId === p.id ? styles.popped : "",
                   ].join(" ")}
                   style={{
                     "--deal-delay": `${i * 140}ms`,
-                    "--wobble-phase": `${i * 0.13}s`,
+                    "--wobble-phase": wobblePhaseByIndex[i] ?? "0s",
                   }}
                 />
               ))}
@@ -193,8 +240,8 @@ function ProjectsSection() {
           </div>
         )}
 
-        {isMobile && (
-          <div className={styles.mobileWrap}>
+        {isMobile && active && (
+          <div className={styles.mobileWrap} onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
               className={styles.arrow}
@@ -212,15 +259,20 @@ function ProjectsSection() {
                 title={active.title}
                 description={active.description}
                 tags={active.tags}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCardTap(active.id);
+                }}
                 className={[
                   styles.dealCard,
                   styles.mobileCard,
                   phase === "prep" ? styles.prep : "",
                   phase === "deal" ? styles.deal : "",
+                  poppedId === active.id ? styles.popped : "",
                 ].join(" ")}
                 style={{
                   "--deal-delay": `0ms`,
-                  "--wobble-phase": `${activeIndex * 0.17}s`,
+                  "--wobble-phase": wobblePhaseByIndex[activeIndex] ?? "0s",
                 }}
               />
             </div>
@@ -236,7 +288,7 @@ function ProjectsSection() {
             </button>
 
             <div className={styles.dots} aria-hidden="true">
-              {projects.map((p, i) => (
+              {shuffledProjects.map((p, i) => (
                 <span
                   key={p.id}
                   className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ""}`}
@@ -246,12 +298,8 @@ function ProjectsSection() {
           </div>
         )}
 
-        <div
-          ref={deckRef}
-          className={styles.deck}
-          aria-hidden="true"
-        > 
-            <img src={profilePic}></img>
+        <div ref={deckRef} className={styles.deck} aria-hidden="true">
+          <img src={profilePic} alt="" />
         </div>
       </div>
     </section>
