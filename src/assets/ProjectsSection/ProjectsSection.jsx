@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import ProjectCard from "../ProjectCard/ProjectCard.jsx";
-import styles from "./ProjectsSection.module.css";
-import profilePic from "../ElectroCubicLogo_New.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import ProjectCard from "../ProjectCard/ProjectCard.jsx";
+import profilePic from "../ElectroCubicLogo_New.png";
+import styles from "./ProjectsSection.module.css";
 
 function shuffleArray(arr) {
   const a = [...arr];
@@ -58,6 +58,36 @@ function ProjectsSection() {
         description: "One line description about the Project...",
         tags: ["Unity", "C#", "Prototype", "Designer", "Puzzle"],
       },
+            {
+        id: "p6",
+        title: "Project Title",
+        description: "One line description about the Project...",
+        tags: ["Godot", "FL Studio", "Solo", "Game Jam", "Puzzle"],
+      },
+      {
+        id: "p7",
+        title: "Project Title",
+        description: "One line description about the Project...",
+        tags: ["Godot", "FL Studio", "Android", "Prototype", "Puzzle"],
+      },
+      {
+        id: "p8",
+        title: "Project Title",
+        description: "One line description about the Project...",
+        tags: ["Python", "Pygame", "Software", "Simulator"],
+      },
+      {
+        id: "p9",
+        title: "Project Title",
+        description: "One line description about the Project...",
+        tags: ["Godot", "Puzzle", "Programmer", "GDScript"],
+      },
+      {
+        id: "p10",
+        title: "Project Title",
+        description: "One line description about the Project...",
+        tags: ["Unity", "C#", "Prototype", "Designer", "Puzzle"],
+      },
     ],
     []
   );
@@ -79,11 +109,17 @@ function ProjectsSection() {
 
   const [cardsPerPage, setCardsPerPage] = useState(1);
   const [pageStart, setPageStart] = useState(0);
-
-  // Optional: keep wobble phases ready (even if wobble is off in CSS)
   const [wobblePhaseById, setWobblePhaseById] = useState(() => new Map());
 
-  // Trigger once when section enters
+  const tapDeck = () => {
+    const el = deckRef.current;
+    if (!el) return;
+
+    el.classList.remove(styles.deckTap);
+    void el.offsetWidth;
+    el.classList.add(styles.deckTap);
+  };
+
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -95,7 +131,7 @@ function ProjectsSection() {
         const shuffled = shuffleArray(projects);
         setShuffledProjects(shuffled);
 
-        const duration = 7.5;
+        const duration = 4.5;
         const m = new Map();
         shuffled.forEach((p) =>
           m.set(p.id, `-${(Math.random() * duration).toFixed(3)}s`)
@@ -116,7 +152,6 @@ function ProjectsSection() {
     return () => io.disconnect();
   }, [projects]);
 
-  // Responsive: compute how many cards fit
   useEffect(() => {
     const el = carouselRef.current;
     if (!el) return;
@@ -124,23 +159,21 @@ function ProjectsSection() {
     // Keep these in sync with CSS
     const arrowW = 44;
     const gap = 10;
-
-    // Design constraints
-    const minCard = 250;
+    const minCardWidth = 250;
     const maxCards = 5;
 
     const ro = new ResizeObserver(([entry]) => {
       const fullW = entry.contentRect.width;
 
-      // Space available for the cards area (subtract arrows + gaps)
+      // Space available for the cards area
       const cardsAreaW = Math.max(0, fullW - (arrowW * 2 + gap * 2));
 
-      const raw = Math.floor((cardsAreaW + gap) / (minCard + gap));
+      const raw = Math.floor((cardsAreaW + gap) / (minCardWidth + gap));
       const k = clamp(raw || 1, 1, maxCards);
 
       setCardsPerPage(k);
 
-      // snap start to multiple of k (feels consistent when resizing)
+      // snap start to multiple of k
       setPageStart((s) => {
         const n = shuffledProjects.length || 1;
         const snapped = Math.floor(s / k) * k;
@@ -154,7 +187,9 @@ function ProjectsSection() {
 
   const visible = useMemo(() => {
     const n = shuffledProjects.length;
-    if (n === 0) return [];
+    if (n === 0) {
+      return [];
+    }
     const k = Math.min(cardsPerPage, n);
     return getWindowCircular(shuffledProjects, pageStart, k);
   }, [shuffledProjects, pageStart, cardsPerPage]);
@@ -177,7 +212,7 @@ function ProjectsSection() {
     if (settleTimeoutRef.current) clearTimeout(settleTimeoutRef.current);
 
     const k = visible.length || 1;
-    const total = 440 + (k - 1) * 140 + 80; // deal time + stagger + small buffer
+    const total = 440 + (k - 1) * 140 + 80; // Small time buffer for dealing cards
 
     settleTimeoutRef.current = setTimeout(() => setPhase("settled"), total);
   };
@@ -190,7 +225,6 @@ function ProjectsSection() {
     setPhase("prep");
 
     raf1.current = requestAnimationFrame(() => {
-      // Ensure refs are available
       visible.forEach((_, i) => setOffsets(cardRefs.current[i]));
       cardRefs.current.forEach((el) => el?.getBoundingClientRect());
       sectionRef.current?.getBoundingClientRect();
@@ -209,6 +243,7 @@ function ProjectsSection() {
   }, [triggered, pageStart, cardsPerPage, visible.length]);
 
   const prev = () => {
+    tapDeck();
     setPoppedId(null);
     setPageStart((s) => {
       const n = shuffledProjects.length || 1;
@@ -218,6 +253,7 @@ function ProjectsSection() {
   };
 
   const next = () => {
+    tapDeck();
     setPoppedId(null);
     setPageStart((s) => {
       const n = shuffledProjects.length || 1;
@@ -303,7 +339,7 @@ function ProjectsSection() {
         </div>
 
         <div ref={deckRef} className={styles.deck} aria-hidden="true">
-          <img src={profilePic} alt="" />
+          <img src={profilePic} alt="ElectroCubic Logo" />
         </div>
       </div>
     </section>

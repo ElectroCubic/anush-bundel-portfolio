@@ -9,6 +9,17 @@
 
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(6px);
+    transition: border-color 1s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
 .thumbWrap {
@@ -156,24 +167,21 @@
 .cta {
     margin-top: 0.75rem;
     align-self: center;
-
     background: transparent;
     color: var(--text-color1);
     border: 1px solid rgba(9, 230, 246, 0.55);
     border-radius: 10px;
-
     padding: 0.75rem 2.25rem;
     font: inherit;
     letter-spacing: 0.06em;
     cursor: pointer;
-
     transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
 @media (hover: hover) {
-    .card:hover {
-        border-color: var(--accent-color1);
-        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+    .card:hover:before {
+        border-color: var(--accent-color2);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75);
     }
 
     .cta:hover {

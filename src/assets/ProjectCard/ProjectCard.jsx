@@ -56,9 +56,14 @@ const TAG_CATEGORY_BY_NAME = {
 const TYPE_TAG_PRIORITY = ["Game Jam", "Prototype", "Software"];
 
 function getTypeFromTags(tags) {
-  if (!Array.isArray(tags) || tags.length === 0) return "Other";
+  if (!Array.isArray(tags) || tags.length === 0) {
+    return "Other";
+  } 
   const tagSet = new Set(tags);
-  for (const t of TYPE_TAG_PRIORITY) if (tagSet.has(t)) return t;
+  for (const t of TYPE_TAG_PRIORITY) {
+    if (tagSet.has(t)) return t;
+  }
+  
   return "Other";
 }
 
