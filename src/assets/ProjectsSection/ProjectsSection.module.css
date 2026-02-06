@@ -162,6 +162,7 @@
 
 /* Final idle state */
 .settled {
+  will-change: transform;
   opacity: 1;
   transform:
     translate(0, 0)
@@ -172,7 +173,7 @@
   transition: transform 120ms cubic-bezier(0.2, 0.95, 0.2, 1), opacity 120ms ease-out;
 
   animation: wobbleLoop 4.5s ease-in-out infinite;
-  animation-delay: var(--wobble-phase);
+  animation-delay: calc(var(--wobble-phase) + 4s);
   animation-fill-mode: both;
 }
 
