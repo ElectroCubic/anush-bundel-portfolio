@@ -9,7 +9,7 @@ const SECTIONS = [
     { id: "contact", label: "Contact" },
 ];
 
-const thresholdVal = 0.15;
+const thresholdVal = 0.12;
 const rootMarginVal = "-20% 0px -60% 0px";
 
 function NavBar() {
