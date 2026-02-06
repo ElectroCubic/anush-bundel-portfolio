@@ -153,11 +153,11 @@
 }
 
 @keyframes wobbleLoop {
-  0%   { --wobble-angle: 0deg;     --wobble-y: 0px; }
-  25%  { --wobble-angle: 0.55deg;  --wobble-y: -1px; }
-  50%  { --wobble-angle: 0deg;     --wobble-y: 0px; }
-  75%  { --wobble-angle: -0.4deg;  --wobble-y: 2px; }
-  100% { --wobble-angle: 0deg;     --wobble-y: 0px; }
+    0%   { --wobble-angle: 0deg; }
+    25%  { --wobble-angle: 0.8deg; --wobble-y: -1px; }
+    50%  { --wobble-angle: 0deg; }
+    75%  { --wobble-angle: -0.6deg; --wobble-y: 0.6px; }
+    100% { --wobble-angle: 0deg; }
 }
 
 /* Final idle state */
