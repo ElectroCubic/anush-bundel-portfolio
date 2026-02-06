@@ -1,8 +1,8 @@
-
 import NavBar from "./assets/NavBar/NavBar.jsx"
 import HeroSection from "./assets/HeroSection/HeroSection.jsx"
 import AboutSection from "./assets/AboutSection/AboutSection.jsx"
-import ProjectsSection from "./assets/ProjectsSection/ProjectsSection.jsx";
+import ProjectsSection from "./assets/ProjectsSection/ProjectsSection.jsx"
+import SkillsSection from "./assets/SkillsSection/SkillsSection.jsx"
 
 import WipBanner from "./assets/WipBanner/WipBanner.jsx";
 
@@ -21,7 +21,7 @@ function App() {
                 <ProjectsSection />
             </section>
             <section id="skills" style={{ minHeight: "100vh" }}>
-                <h2>Skills</h2>
+                <SkillsSection />
             </section>
             <section id="contact" style={{ minHeight: "100vh" }}>
                 <h2>Contact</h2>

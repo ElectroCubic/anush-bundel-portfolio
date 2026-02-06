@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faForward, faFileArrowDown} from "@fortawesome/free-solid-svg-icons";
+import { faForward, faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import ProfilePic from "../ProfilePic/ProfilePic.jsx"
 import Button from "../Button/Button.jsx"
 import styles from "./HeroSection.module.css"
