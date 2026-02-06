@@ -21,7 +21,9 @@ function clamp(n, a, b) {
 function getWindowCircular(list, start, k) {
   const out = [];
   const n = list.length;
-  for (let i = 0; i < k; i++) out.push(list[(start + i) % n]);
+  for (let i = 0; i < k; i++) {
+    out.push(list[(start + i) % n]);
+  }
   return out;
 }
 
@@ -156,8 +158,7 @@ function ProjectsSection() {
     const el = carouselRef.current;
     if (!el) return;
 
-    // Keep these in sync with CSS
-    const arrowW = 44;
+    const arrowW = 44;          // From CSS
     const gap = 10;
     const minCardWidth = 250;
     const maxCards = 5;
@@ -165,9 +166,7 @@ function ProjectsSection() {
     const ro = new ResizeObserver(([entry]) => {
       const fullW = entry.contentRect.width;
 
-      // Space available for the cards area
       const cardsAreaW = Math.max(0, fullW - (arrowW * 2 + gap * 2));
-
       const raw = Math.floor((cardsAreaW + gap) / (minCardWidth + gap));
       const k = clamp(raw || 1, 1, maxCards);
 
