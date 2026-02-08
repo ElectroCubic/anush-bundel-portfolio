@@ -59,10 +59,9 @@
 
 .photo {
     object-fit: cover;
-    object-position: center 35%;
+    object-position: center 50%;
 }
 
-/* the active one */
 .visible {
     opacity: 1;
     transform: scale(1);

@@ -101,7 +101,7 @@
 
 @property --wobble-angle {
   syntax: "<angle>";
-  inherits: false;
+  inherits: true;
   initial-value: 0deg;
 }
 
@@ -153,17 +153,26 @@
 }
 
 @keyframes wobbleLoop {
-    0%   { --wobble-angle: 0deg; }
-    25%  { --wobble-angle: 0.8deg; --wobble-y: -1px; }
-    50%  { --wobble-angle: 0deg; }
-    75%  { --wobble-angle: -0.6deg; --wobble-y: 0.6px; }
-    100% { --wobble-angle: 0deg; }
+  0%, 100% { --wobble-angle: 0deg; }
+  10%      { --wobble-angle: 0.55deg; }
+  20%,40%,60% { --wobble-angle: -1deg; }
+  30%,50%,70% { --wobble-angle: 1deg; }
+  80%      { --wobble-angle: -0.55deg; }
+  90%      { --wobble-angle: 0.55deg; }
 }
 
-/* Final idle state */
+@keyframes wobbleVertical {
+  0%, 100% { --wobble-y: 0px; }
+  10%,30%,50%,70% { --wobble-y: -3.8px; }
+  20%,40%,60%     { --wobble-y: 3.8px; }
+  80%             { --wobble-y: 3.2px; }
+  90%             { --wobble-y: -3.2px; }
+}
+
 .settled {
   will-change: transform;
   opacity: 1;
+
   transform:
     translate(0, 0)
     rotate(var(--wobble-angle))
@@ -172,10 +181,15 @@
 
   transition: transform 120ms cubic-bezier(0.2, 0.95, 0.2, 1), opacity 120ms ease-out;
 
-  animation: wobbleLoop 4.5s ease-in-out infinite;
-  animation-delay: calc(var(--wobble-phase) + 4s);
-  animation-fill-mode: both;
+  animation:
+    wobbleLoop 20s cubic-bezier(0.37, 0, 0.63, 1) infinite both,
+    wobbleVertical 30s cubic-bezier(0.37, 0, 0.63, 1) infinite both;
+
+  animation-delay:
+    calc(var(--wobble-phase) + 4.5s),
+    calc(var(--wobble-phase) + 4.5s);
 }
+
 
 /* Pop up effect */
 .popped {
