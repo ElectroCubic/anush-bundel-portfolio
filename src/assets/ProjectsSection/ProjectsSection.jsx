@@ -113,6 +113,8 @@ function ProjectsSection() {
   const [pageStart, setPageStart] = useState(0);
   const [wobblePhaseById, setWobblePhaseById] = useState(() => new Map());
 
+  const dealDelay = 140;
+
   const tapDeck = () => {
     const el = deckRef.current;
     if (!el) return;
@@ -266,13 +268,9 @@ function ProjectsSection() {
   };
 
   const phaseClass =
-    phase === "prep"
-      ? styles.prep
-      : phase === "dealing"
-      ? styles.dealing
-      : phase === "settled"
-      ? styles.settled
-      : "";
+    phase === "prep" ? styles.prep : 
+        phase === "dealing" ? styles.dealing : 
+            phase === "settled" ? styles.settled : "";
 
   return (
     <section
@@ -283,7 +281,7 @@ function ProjectsSection() {
     >
       <div className={styles.headingBar}>
         <h1 className={styles.heading}>Explore My Worlds</h1>
-        <p className={styles.subheading}>The Cool Stuff I’ve Worked Upon</p>
+        <p className={styles.subheading}>The Cool Stuff I've Worked Upon</p>
       </div>
 
       <div className={styles.cardsViewport}>
@@ -309,17 +307,14 @@ function ProjectsSection() {
                 title={p.title}
                 description={p.description}
                 tags={p.tags}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCardTap(p.id);
-                }}
+                onClick={(e) => { e.stopPropagation(); onCardTap(p.id);}}
                 className={[
                   styles.dealCard,
                   phaseClass,
                   poppedId === p.id ? styles.popped : "",
                 ].join(" ")}
                 style={{
-                  "--deal-delay": `${i * 140}ms`,
+                  "--deal-delay": `${i * dealDelay}ms`,
                   "--wobble-phase": wobblePhaseById.get(p.id) ?? "0s",
                 }}
               />
