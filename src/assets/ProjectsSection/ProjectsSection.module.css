@@ -154,11 +154,11 @@
 
 @keyframes wobbleLoop {
   0%, 100% { --wobble-angle: 0deg; }
-  10%      { --wobble-angle: 0.55deg; }
-  20%,40%,60% { --wobble-angle: -1deg; }
-  30%,50%,70% { --wobble-angle: 1deg; }
-  80%      { --wobble-angle: -0.55deg; }
-  90%      { --wobble-angle: 0.55deg; }
+  10%      { --wobble-angle: 0.5deg; }
+  20%,40%,60% { --wobble-angle: -0.9deg; }
+  30%,50%,70% { --wobble-angle: 0.9deg; }
+  80%      { --wobble-angle: -0.5deg; }
+  90%      { --wobble-angle: 0.5deg; }
 }
 
 @keyframes wobbleVertical {

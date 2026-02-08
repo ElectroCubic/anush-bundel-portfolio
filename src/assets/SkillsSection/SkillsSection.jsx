@@ -26,10 +26,10 @@ const TREE = {
         {
             id: "git",
             label: "Git",
-            col: 6,
+            col: 7,
             row: 4,
             children: [
-                { id: "github", label: "GitHub", col: 3, row: 4, children: [] },
+                { id: "github", label: "GitHub", col: 5, row: 4, children: [] },
             ],
         },
         {
@@ -107,17 +107,17 @@ const TREE = {
 const COLS = 17;
 const ROWS = 6;
 
-const PITCH_X = 160;
-const PITCH_Y = 170;
+const PITCH_X = 100;
+const PITCH_Y = 110;
 
-const PAD_X = 110;
-const PAD_Y = 90;
+const PAD_X = 70;
+const PAD_Y = 60;;
 
-const NODE_W = 118;
-const NODE_H = 118;
-const NODE_R = 22;
+const NODE_W = 140;
+const NODE_H = 140;
+const NODE_R = 26;
 
-const CORE_D = 140;
+const CORE_D = 110;
 
 function flattenTree(root) {
     const nodes = [];
@@ -148,6 +148,7 @@ function flattenTree(root) {
 
 function SkillsSection() {
     const [activeId, setActiveId] = useState(null);
+    const [hoveredId, setHoveredId] = useState(null);
 
     const { nodes, edges, parentById } = useMemo(() => flattenTree(TREE), []);
 
@@ -175,7 +176,6 @@ function SkillsSection() {
             return { pathNodes: pn, pathEdges: pe };
         }
 
-        // Walk upward from active to root using parent pointers
         let cur = activeId;
         pn.add(cur);
 
@@ -224,6 +224,16 @@ function SkillsSection() {
         );
     };
 
+    const onEnter = (id) => {
+        setActiveId(id);
+        setHoveredId(id);
+    };
+
+    const onLeave = () => {
+        setActiveId(null);
+        setHoveredId(null);
+    };
+
     return (
         <section className={styles.skillsSection} id="skills">
             <div className={styles.heading}>
@@ -240,6 +250,7 @@ function SkillsSection() {
                     aria-label="Skill tree diagram"
                 >
                     <defs>
+                        {/* Wire glow */}
                         <filter id="wireGlow" x="-60%" y="-60%" width="220%" height="220%">
                             <feGaussianBlur stdDeviation="4.0" result="blur" />
                             <feMerge>
@@ -248,10 +259,12 @@ function SkillsSection() {
                             </feMerge>
                         </filter>
 
+                        {/* Node shadow */}
                         <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
                             <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="rgba(0,0,0,0.55)" />
                         </filter>
 
+                        {/* Core glow */}
                         <filter id="coreGlow" x="-70%" y="-70%" width="240%" height="240%">
                             <feGaussianBlur stdDeviation="12" result="cblur" />
                             <feMerge>
@@ -260,10 +273,19 @@ function SkillsSection() {
                             </feMerge>
                         </filter>
 
-                        <radialGradient id="coreFill" cx="50%" cy="50%" r="60%">
-                            <stop offset="0%" stopColor="rgba(94,235,138,0.38)" />
-                            <stop offset="100%" stopColor="rgba(14,11,39,0.65)" />
-                        </radialGradient>
+                        {/* Hover-only node glow */}
+                        <filter id="nodeGlow" x="-70%" y="-70%" width="240%" height="240%">
+                            <feGaussianBlur stdDeviation="6" result="nblur" />
+                            <feMerge>
+                                <feMergeNode in="nblur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+
+                        <linearGradient id="coreFill" cx="50%" cy="50%">
+                            <stop offset="0%" stopColor="#5EEB8A" />
+                            <stop offset="100%" stopColor="#7AA2F7" />
+                        </linearGradient>
                     </defs>
 
                     {/* WIRES */}
@@ -276,7 +298,6 @@ function SkillsSection() {
                             const onPath = isPathEdge(a, b);
                             const dim = activeId ? !onPath : false;
 
-                            // Glow ONLY for path edges
                             const glowOpacity = onPath ? 0.35 : 0;
                             const baseOpacity = dim ? 0.10 : onPath ? 0.85 : 0.55;
 
@@ -291,7 +312,7 @@ function SkillsSection() {
                                             vectorEffect="non-scaling-stroke"
                                             filter="url(#wireGlow)"
                                             style={{
-                                                stroke: "rgba(9, 230, 246, 0.95)",
+                                                stroke: "#5EEB8A",
                                                 strokeWidth: 7,
                                                 strokeLinecap: "round",
                                                 opacity: glowOpacity,
@@ -306,7 +327,7 @@ function SkillsSection() {
                                         y2={p2.y}
                                         vectorEffect="non-scaling-stroke"
                                         style={{
-                                            stroke: "rgba(9, 230, 246, 0.90)",
+                                            stroke: "#5EEB8A",
                                             strokeWidth: 3.0,
                                             strokeLinecap: "round",
                                             opacity: baseOpacity,
@@ -324,19 +345,20 @@ function SkillsSection() {
                             if (!c) return null;
 
                             const dim = isDimNode(n.id);
+                            const isHovered = hoveredId === n.id;
 
                             const handlers = {
-                                onMouseEnter: () => setActiveId(n.id),
-                                onMouseLeave: () => setActiveId(null),
-                                onFocus: () => setActiveId(n.id),
-                                onBlur: () => setActiveId(null),
+                                onMouseEnter: () => onEnter(n.id),
+                                onMouseLeave: onLeave,
+                                onFocus: () => onEnter(n.id),
+                                onBlur: onLeave,
                             };
 
                             if (n.type === "core") {
                                 return (
                                     <g
                                         key={n.id}
-                                        className={`${styles.node} ${styles.coreNode} ${dim ? styles.dim : ""}`}
+                                        className={`${styles.node} ${styles.coreNode} ${dim ? styles.dim : ""} ${isHovered ? styles.hovered : ""}`}
                                         tabIndex={0}
                                         role="button"
                                         aria-label={n.label}
@@ -348,7 +370,7 @@ function SkillsSection() {
                                             r={CORE_D / 2}
                                             fill="url(#coreFill)"
                                             className={styles.coreCircle}
-                                            filter="url(#coreGlow)"
+                                            filter={isHovered ? "url(#nodeGlow)" : "url(#coreGlow)"}
                                         />
                                         {renderLabel(n.label, c.x, c.y)}
                                     </g>
@@ -358,7 +380,7 @@ function SkillsSection() {
                             return (
                                 <g
                                     key={n.id}
-                                    className={`${styles.node} ${dim ? styles.dim : ""}`}
+                                    className={`${styles.node} ${dim ? styles.dim : ""} ${isHovered ? styles.hovered : ""}`}
                                     tabIndex={0}
                                     role="button"
                                     aria-label={n.label}
@@ -372,7 +394,7 @@ function SkillsSection() {
                                         rx={NODE_R}
                                         ry={NODE_R}
                                         className={styles.nodeRect}
-                                        filter="url(#nodeShadow)"
+                                        filter={isHovered ? "url(#nodeGlow)" : "url(#nodeShadow)"}
                                     />
                                     {renderLabel(n.label, c.x, c.y)}
                                 </g>
