@@ -23,48 +23,46 @@
 }
 
 .stage {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 1rem;
+    width: min(1600px, 100%);
+    margin: 0 auto;
 }
 
 .treeSvg {
     width: 100%;
-    height: min(78vh, 820px);
+    height: auto;
     display: block;
     overflow: visible;
-    min-width: max-content;
 }
-
 
 /* Node visuals */
 .nodeRect {
-    fill: rgba(14, 11, 39, 0.65);
-    stroke: rgba(9, 230, 246, 0.35);
-    stroke-width: 2.5;
-    transition: stroke 140ms ease, transform 140ms ease;
+    fill: rgba(14, 11, 39, 0.70);
+    stroke: rgba(9, 230, 246, 0.45);
+    stroke-width: 1.5;
+    transition: stroke 160ms ease, stroke-width 160ms ease, opacity 140ms ease;
 }
 
 .coreCircle {
-    stroke: rgba(94, 235, 138, 0.55);
+    stroke: rgba(94, 235, 138, 0.75);
     stroke-width: 2;
+    transition: stroke 160ms ease, stroke-width 160ms ease, opacity 140ms ease;
 }
 
 /* Labels */
 .nodeLabel {
     fill: var(--text-color1);
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 0.08em;
     pointer-events: none;
 }
 
+/* Interactions */
 .node {
     cursor: pointer;
     outline: none;
     transform-box: fill-box;
     transform-origin: center;
-    transition: transform 140ms ease, opacity 140ms ease;
+    transition: transform 180ms ease, opacity 140ms ease;
 }
 
 .node:hover {
@@ -72,42 +70,63 @@
 }
 
 .node:hover .nodeRect {
-    stroke: rgba(9, 230, 246, 0.80);
-}
-
-.node:hover .coreCircle {
-    stroke: rgba(94, 235, 138, 0.80);
-}
-
-.hovered .nodeRect {
-    stroke: var(--accent-color1);
+    stroke: rgba(9, 230, 246, 0.92);
     stroke-width: 2.2;
+    filter: url(#strokeGlow);
 }
 
-.hovered .coreCircle {
-    stroke: var(--accent-color2);
-    stroke-width: 2.8;
-    fill: var(--bg-color3);
+.coreNode:hover .coreCircle {
+    stroke: rgba(94, 235, 138, 0.92);
+    stroke-width: 2.6;
+    filter: url(#strokeGlow);
+}
+
+.node:focus-visible .nodeRect {
+    stroke: rgba(9, 230, 246, 0.92);
+    stroke-width: 2.2;
+    filter: url(#strokeGlow);
+}
+
+.coreNode:focus-visible .coreCircle {
+    stroke: rgba(94, 235, 138, 0.92);
+    stroke-width: 2.6;
+    filter: url(#strokeGlow);
 }
 
 .dim {
-    opacity: 0.42;
+    opacity: 0.25;
     filter: saturate(0.6);
 }
 
+.dim .nodeRect,
+.dim .coreCircle {
+    filter: none !important;
+}
+
+.dim .nodeStrokeGlow,
+.dim .coreStrokeGlow {
+    opacity: 0;
+}
+
 .coreNode .nodeLabel {
-    font-size: 26px;
+    font-size: 30px;
 }
 
-@media (max-width: 900px) {
-    .treeSvg {
-        height: min(72vh, 680px);
+@media (max-width: 650px) {
+    .skillsSection {
+        padding: 3rem 1rem 4rem;
+    }
+
+    .stage {
+        width: 100%;
+    }
+
+    .nodeLabel {
+        font-size: 11px;
+        letter-spacing: 0.06em;
+    }
+
+    .coreNode .nodeLabel {
+        font-size: 18px;
     }
 }
-
-@media (max-width: 600px) {
-    .treeSvg {
-        height: min(64vh, 560px);
-    }
-}
-

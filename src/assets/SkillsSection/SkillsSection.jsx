@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./SkillsSection.module.css";
 
 const ROOT_ID = "core";
@@ -7,47 +7,35 @@ const TREE = {
     id: "core",
     label: "Core",
     type: "core",
-    col: 9,
-    row: 4,
     children: [
         {
             id: "python",
             label: "Python",
-            col: 9,
-            row: 2,
             children: [
-                { id: "pygame", label: "Pygame", col: 7, row: 2, children: [] },
+                { id: "pygame", label: "Pygame", children: [] },
             ],
         },
         {
             id: "git",
             label: "Git",
-            col: 7,
-            row: 4,
             children: [
-                { id: "github", label: "GitHub", col: 5, row: 4, children: [] },
+                { id: "github", label: "GitHub", children: [] },
             ],
         },
         {
             id: "gdscript",
             label: "GDScript",
-            col: 11,
-            row: 4,
             children: [
                 {
                     id: "godot",
                     label: "Godot",
-                    col: 13,
-                    row: 4,
                     children: [
-                        { id: "fl", label: "FL Studio", col: 13, row: 2, children: [] },
+                        { id: "fl", label: "FL Studio", children: [] },
                         {
                             id: "aseprite",
                             label: "Aseprite",
-                            col: 15,
-                            row: 4,
                             children: [
-                                { id: "figma", label: "Figma", col: 17, row: 4, children: [] },
+                                { id: "figma", label: "Figma", children: [] },
                             ],
                         },
                     ],
@@ -57,28 +45,20 @@ const TREE = {
         {
             id: "vsc",
             label: "VSC",
-            col: 9,
-            row: 6,
             children: [
                 {
                     id: "html",
                     label: "HTML",
-                    col: 7,
-                    row: 6,
                     children: [
                         {
                             id: "css",
                             label: "CSS",
-                            col: 5,
-                            row: 6,
                             children: [
                                 {
                                     id: "js",
                                     label: "JS",
-                                    col: 3,
-                                    row: 6,
                                     children: [
-                                        { id: "react", label: "React", col: 1, row: 6, children: [] },
+                                        { id: "react", label: "React", children: [] },
                                     ],
                                 },
                             ],
@@ -88,10 +68,8 @@ const TREE = {
                 {
                     id: "csharp",
                     label: "C#",
-                    col: 11,
-                    row: 6,
                     children: [
-                        { id: "unity", label: "Unity", col: 13, row: 6, children: [] },
+                        { id: "unity", label: "Unity", children: [] },
                     ],
                 },
             ],
@@ -99,20 +77,83 @@ const TREE = {
     ],
 };
 
-const COLS = 17;
-const ROWS = 6;
+const POS_DESKTOP = {
+    core: { col: 9, row: 4, type: "core" },
 
-const PITCH_X = 100;
-const PITCH_Y = 110;
+    pygame: { col: 7, row: 2 },
+    python: { col: 9, row: 2 },
+    fl: { col: 13, row: 2 },
 
-const PAD_X = 70;
-const PAD_Y = 60;;
+    github: { col: 5, row: 4 },
+    git: { col: 7, row: 4 },
+    gdscript: { col: 11, row: 4 },
+    godot: { col: 13, row: 4 },
+    aseprite: { col: 15, row: 4 },
+    figma: { col: 17, row: 4 },
 
-const NODE_W = 140;
-const NODE_H = 140;
-const NODE_R = 26;
+    react: { col: 1, row: 6 },
+    js: { col: 3, row: 6 },
+    css: { col: 5, row: 6 },
+    html: { col: 7, row: 6 },
+    vsc: { col: 9, row: 6 },
+    csharp: { col: 11, row: 6 },
+    unity: { col: 13, row: 6 },
+};
 
-const CORE_D = 110;
+const POS_MOBILE = {
+    core: { col: 4, row: 2, type: "core" },
+
+    python: { col: 6, row: 2 },
+    pygame: { col: 6, row: 4 },
+
+    gdscript: { col: 6, row: 6 },
+    godot: { col: 6, row: 8 },
+    fl: { col: 6, row: 12 },
+    aseprite: { col: 4, row: 10 },
+    figma: { col: 4, row: 12 },
+
+    git: { col: 2, row: 2 },
+    github: { col: 2, row: 4 },
+
+    vsc: { col: 4, row: 4 },
+    html: { col: 2, row: 6 },
+    css: { col: 2, row: 8 },
+    js: { col: 2, row: 10 },
+    react: { col: 2, row: 12 },
+
+    csharp: { col: 4, row: 6 },
+    unity: { col: 4, row: 8 },
+};
+
+function useMediaQuery(query) {
+    const [matches, setMatches] = useState(() => {
+        if (typeof window === "undefined") return false;
+        return window.matchMedia(query).matches;
+    });
+
+    useEffect(() => {
+        const mql = window.matchMedia(query);
+        const onChange = (e) => setMatches(e.matches);
+
+        if (mql.addEventListener) {
+            mql.addEventListener("change", onChange);
+        } else {
+            mql.addListener(onChange);
+        }
+
+        setMatches(mql.matches);
+
+        return () => {
+            if (mql.removeEventListener) {
+                mql.removeEventListener("change", onChange);
+            } else {
+                mql.removeListener(onChange);
+            }
+        };
+    }, [query]);
+
+    return matches;
+}
 
 function flattenTree(root) {
     const nodes = [];
@@ -126,7 +167,7 @@ function flattenTree(root) {
 
         nodes.push(node);
         if (parent) {
-            edges.push([parent.id, node.id]); // directed edge from parent -> child
+            edges.push([parent.id, node.id]);
             parentById.set(node.id, parent.id);
         } else {
             parentById.set(node.id, null);
@@ -142,23 +183,61 @@ function flattenTree(root) {
 }
 
 function SkillsSection() {
+    const isMobile = useMediaQuery("(max-width: 650px)");
     const [activeId, setActiveId] = useState(null);
-    const [hoveredId, setHoveredId] = useState(null);
 
     const { nodes, edges, parentById } = useMemo(() => flattenTree(TREE), []);
 
+    const layout = useMemo(() => {
+        if (isMobile) {
+            return {
+                cols: 7,
+                rows: 12,
+                pitchX: 92,
+                pitchY: 92,
+                padX: 26,
+                padY: 26,
+                nodeW: 78,
+                nodeH: 78,
+                nodeR: 16,
+                coreD: 96,
+                pos: POS_MOBILE,
+            };
+        }
+
+        return {
+            cols: 17,
+            rows: 6,
+            pitchX: 115,
+            pitchY: 125,
+            padX: 70,
+            padY: 60,
+            nodeW: 160,
+            nodeH: 160,
+            nodeR: 26,
+            coreD: 150,
+            pos: POS_DESKTOP,
+        };
+    }, [isMobile]);
+
     const centers = useMemo(() => {
         const m = new Map();
+
         nodes.forEach((n) => {
-            const x = PAD_X + (n.col - 1) * PITCH_X;
-            const y = PAD_Y + (n.row - 1) * PITCH_Y;
+            const p = layout.pos[n.id];
+            if (!p) return;
+
+            const x = layout.padX + (p.col - 1) * layout.pitchX;
+            const y = layout.padY + (p.row - 1) * layout.pitchY;
+
             m.set(n.id, { x, y });
         });
-        return m;
-    }, [nodes]);
 
-    const viewW = PAD_X * 2 + (COLS - 1) * PITCH_X;
-    const viewH = PAD_Y * 2 + (ROWS - 1) * PITCH_Y;
+        return m;
+    }, [nodes, layout]);
+
+    const viewW = layout.padX * 2 + (layout.cols - 1) * layout.pitchX;
+    const viewH = layout.padY * 2 + (layout.rows - 1) * layout.pitchY;
 
     const { pathNodes, pathEdges } = useMemo(() => {
         const pn = new Set();
@@ -195,7 +274,7 @@ function SkillsSection() {
 
     const renderLabel = (label, x, y) => {
         const lines = String(label).split("\n");
-        const lineH = 16;
+        const lineH = isMobile ? 12 : 16;
         const totalH = (lines.length - 1) * lineH;
         const startY = y - totalH / 2;
 
@@ -216,18 +295,11 @@ function SkillsSection() {
         );
     };
 
-    const onEnter = (id) => {
-        setActiveId(id);
-        setHoveredId(id);
-    };
-
-    const onLeave = () => {
-        setActiveId(null);
-        setHoveredId(null);
-    };
+    const onEnter = (id) => setActiveId(id);
+    const onLeave = () => setActiveId(null);
 
     return (
-        <section className={styles.skillsSection} id="skills">
+        <div className={styles.skillsSection}>
             <div className={styles.heading}>
                 <h1>My Skill Tree</h1>
                 <p>Levelling Up My Expertise Everyday</p>
@@ -237,44 +309,40 @@ function SkillsSection() {
                 <svg
                     className={styles.treeSvg}
                     viewBox={`0 0 ${viewW} ${viewH}`}
-                    width={viewW}
-                    height={viewH}
-                    preserveAspectRatio="xMinYMin"
+                    preserveAspectRatio="xMidYMid meet"
+                    role="img"
+                    aria-label="Skill tree diagram"
                 >
                     <defs>
-                        {/* Wire glow */}
-                        <filter id="wireGlow" x="-60%" y="-60%" width="220%" height="220%">
-                            <feGaussianBlur stdDeviation="4.0" result="blur" />
+                        <filter id="strokeGlow" x="-60%" y="-60%" width="220%" height="220%">
+                            <feGaussianBlur stdDeviation="6" result="blur" />
                             <feMerge>
                                 <feMergeNode in="blur" />
                                 <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
 
-                        {/* Node shadow */}
-                        <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="rgba(0,0,0,0.55)" />
+                        <filter id="wireGlow" x="-60%" y="-60%" width="220%" height="220%">
+                            <feGaussianBlur stdDeviation={isMobile ? 2.6 : 4.0} result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
                         </filter>
 
-                        {/* Core glow */}
+                        <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feDropShadow dx="0" dy={isMobile ? 6 : 10} stdDeviation={isMobile ? 9 : 14} floodColor="rgba(0,0,0,0.55)" />
+                        </filter>
+
                         <filter id="coreGlow" x="-70%" y="-70%" width="240%" height="240%">
-                            <feGaussianBlur stdDeviation="12" result="cblur" />
+                            <feGaussianBlur stdDeviation={isMobile ? 9 : 12} result="cblur" />
                             <feMerge>
                                 <feMergeNode in="cblur" />
                                 <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
 
-                        {/* Hover-only node glow */}
-                        <filter id="nodeGlow" x="-70%" y="-70%" width="240%" height="240%">
-                            <feGaussianBlur stdDeviation="6" result="nblur" />
-                            <feMerge>
-                                <feMergeNode in="nblur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        <linearGradient id="coreFill" cx="50%" cy="50%">
+                        <linearGradient id="coreFill" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stopColor="#5EEB8A" />
                             <stop offset="100%" stopColor="#7AA2F7" />
                         </linearGradient>
@@ -305,7 +373,7 @@ function SkillsSection() {
                                             filter="url(#wireGlow)"
                                             style={{
                                                 stroke: "var(--accent-color2)",
-                                                strokeWidth: 8,
+                                                strokeWidth: isMobile ? 6 : 7,
                                                 strokeLinecap: "round",
                                                 opacity: glowOpacity,
                                             }}
@@ -320,7 +388,7 @@ function SkillsSection() {
                                         vectorEffect="non-scaling-stroke"
                                         style={{
                                             stroke: "var(--accent-color2)",
-                                            strokeWidth: 4.0,
+                                            strokeWidth: isMobile ? 2.4 : 3.0,
                                             strokeLinecap: "round",
                                             opacity: baseOpacity,
                                         }}
@@ -336,8 +404,9 @@ function SkillsSection() {
                             const c = centers.get(n.id);
                             if (!c) return null;
 
+                            const p = layout.pos[n.id] ?? {};
+                            const type = p.type ?? n.type;
                             const dim = isDimNode(n.id);
-                            const isHovered = hoveredId === n.id;
 
                             const handlers = {
                                 onMouseEnter: () => onEnter(n.id),
@@ -346,11 +415,11 @@ function SkillsSection() {
                                 onBlur: onLeave,
                             };
 
-                            if (n.type === "core") {
+                            if (type === "core") {
                                 return (
                                     <g
                                         key={n.id}
-                                        className={`${styles.node} ${styles.coreNode} ${dim ? styles.dim : ""} ${isHovered ? styles.hovered : ""}`}
+                                        className={`${styles.node} ${styles.coreNode} ${dim ? styles.dim : ""}`}
                                         tabIndex={0}
                                         role="button"
                                         aria-label={n.label}
@@ -359,10 +428,10 @@ function SkillsSection() {
                                         <circle
                                             cx={c.x}
                                             cy={c.y}
-                                            r={CORE_D / 2}
+                                            r={layout.coreD / 2}
                                             fill="url(#coreFill)"
                                             className={styles.coreCircle}
-                                            filter={isHovered ? "url(#nodeGlow)" : "url(#coreGlow)"}
+                                            filter="url(#coreGlow)"
                                         />
                                         {renderLabel(n.label, c.x, c.y)}
                                     </g>
@@ -372,21 +441,21 @@ function SkillsSection() {
                             return (
                                 <g
                                     key={n.id}
-                                    className={`${styles.node} ${dim ? styles.dim : ""} ${isHovered ? styles.hovered : ""}`}
+                                    className={`${styles.node} ${dim ? styles.dim : ""}`}
                                     tabIndex={0}
                                     role="button"
                                     aria-label={n.label}
                                     {...handlers}
                                 >
                                     <rect
-                                        x={c.x - NODE_W / 2}
-                                        y={c.y - NODE_H / 2}
-                                        width={NODE_W}
-                                        height={NODE_H}
-                                        rx={NODE_R}
-                                        ry={NODE_R}
+                                        x={c.x - layout.nodeW / 2}
+                                        y={c.y - layout.nodeH / 2}
+                                        width={layout.nodeW}
+                                        height={layout.nodeH}
+                                        rx={layout.nodeR}
+                                        ry={layout.nodeR}
                                         className={styles.nodeRect}
-                                        filter={isHovered ? "url(#nodeGlow)" : "url(#nodeShadow)"}
+                                        filter="url(#nodeShadow)"
                                     />
                                     {renderLabel(n.label, c.x, c.y)}
                                 </g>
@@ -395,7 +464,7 @@ function SkillsSection() {
                     </g>
                 </svg>
             </div>
-        </section>
+        </div>
     );
 }
 
