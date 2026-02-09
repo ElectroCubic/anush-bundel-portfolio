@@ -3,10 +3,6 @@ import styles from "./SkillsSection.module.css";
 
 const ROOT_ID = "core";
 
-/**
- * Tree definition (parent -> children).
- * Positions still live here so you can move stuff freely.
- */
 const TREE = {
     id: "core",
     label: "Core",
@@ -44,7 +40,7 @@ const TREE = {
                     col: 13,
                     row: 4,
                     children: [
-                        { id: "fl", label: "FL\nStudio", col: 13, row: 2, children: [] },
+                        { id: "fl", label: "FL Studio", col: 13, row: 2, children: [] },
                         {
                             id: "aseprite",
                             label: "Aseprite",
@@ -103,7 +99,6 @@ const TREE = {
     ],
 };
 
-// Layout constants (deterministic)
 const COLS = 17;
 const ROWS = 6;
 
@@ -131,7 +126,7 @@ function flattenTree(root) {
 
         nodes.push(node);
         if (parent) {
-            edges.push([parent.id, node.id]); // directed edge parent -> child
+            edges.push([parent.id, node.id]); // directed edge from parent -> child
             parentById.set(node.id, parent.id);
         } else {
             parentById.set(node.id, null);
@@ -165,9 +160,6 @@ function SkillsSection() {
     const viewW = PAD_X * 2 + (COLS - 1) * PITCH_X;
     const viewH = PAD_Y * 2 + (ROWS - 1) * PITCH_Y;
 
-    /**
-     * Compute the PATH from ROOT -> activeId (unique in a tree).
-     */
     const { pathNodes, pathEdges } = useMemo(() => {
         const pn = new Set();
         const pe = new Set();
@@ -245,9 +237,9 @@ function SkillsSection() {
                 <svg
                     className={styles.treeSvg}
                     viewBox={`0 0 ${viewW} ${viewH}`}
-                    preserveAspectRatio="xMidYMid meet"
-                    role="img"
-                    aria-label="Skill tree diagram"
+                    width={viewW}
+                    height={viewH}
+                    preserveAspectRatio="xMinYMin"
                 >
                     <defs>
                         {/* Wire glow */}
@@ -312,8 +304,8 @@ function SkillsSection() {
                                             vectorEffect="non-scaling-stroke"
                                             filter="url(#wireGlow)"
                                             style={{
-                                                stroke: "#5EEB8A",
-                                                strokeWidth: 7,
+                                                stroke: "var(--accent-color2)",
+                                                strokeWidth: 8,
                                                 strokeLinecap: "round",
                                                 opacity: glowOpacity,
                                             }}
@@ -327,8 +319,8 @@ function SkillsSection() {
                                         y2={p2.y}
                                         vectorEffect="non-scaling-stroke"
                                         style={{
-                                            stroke: "#5EEB8A",
-                                            strokeWidth: 3.0,
+                                            stroke: "var(--accent-color2)",
+                                            strokeWidth: 4.0,
                                             strokeLinecap: "round",
                                             opacity: baseOpacity,
                                         }}
