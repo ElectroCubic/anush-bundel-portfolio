@@ -2,7 +2,7 @@ export const ROOT_ID = "core";
 
 export const TREE = {
     id: "core",
-    label: "Core",
+    label: "",
     type: "core",
     // icon: "/icons/core.svg",
     // desc: "Your foundation.",
@@ -10,8 +10,8 @@ export const TREE = {
         {
             id: "python",
             label: "Python",
-            // icon: "/icons/python.svg",
-            // desc: "Scripting & tooling.",
+            icon: "/icons/python.svg",
+            desc: "Scripting & tooling.",
             children: [
                 { id: "pygame", label: "Pygame", children: [] },
             ],

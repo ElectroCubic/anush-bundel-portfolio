@@ -1,207 +1,209 @@
 .skillsSection {
-    max-width: 1480px;
-    margin: 0 auto;
-    padding: 3.5rem 1.25rem 5rem;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 5rem;
 }
 
 .heading {
-    text-align: center;
-    margin-bottom: 2.5rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
 }
 
 .heading h1 {
-    margin: 0;
-    font-size: clamp(2.4rem, 3.5vw, 4.2rem);
-    font-weight: 400;
-    letter-spacing: 0.02em;
+  margin: 0;
+  font-size: clamp(2.4rem, 3.5vw, 4.2rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .heading p {
-    margin: 0.75rem 0 0;
-    color: var(--text-color2);
-    font-size: clamp(1.05rem, 1.4vw, 1.6rem);
+  margin: 0.75rem 0 0;
+  color: var(--text-color2);
+  font-size: clamp(1.05rem, 1.4vw, 1.6rem);
 }
 
 .stage {
-    width: min(1600px, 100%);
-    margin: 0 auto;
-    position: relative; /* ✅ tooltip positioning */
+  width: min(1600px, 100%);
+  margin: 0 auto;
+  position: relative;
 }
 
 .treeSvg {
-    width: 100%;
-    height: auto;
-    display: block;
-    overflow: visible;
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
 }
 
 /* Node visuals */
 .nodeRect {
-    fill: rgba(14, 11, 39, 1);
-    stroke: rgba(9, 230, 246, 0.45);
-    stroke-width: 1.5;
-    transition: stroke 180ms ease, stroke-width 160ms ease, opacity 140ms ease;
+  fill: var(--bg-color3);
+  stroke: var(--primary-color1);
+  stroke-width: 0.5;
+  transition: stroke 180ms ease, stroke-width 160ms ease, opacity 140ms ease;
 }
 
 .coreCircle {
-    stroke: rgba(94, 235, 138, 0.75);
-    stroke-width: 2;
-    transition: stroke 160ms ease, stroke-width 160ms ease, opacity 140ms ease;
+  stroke: var(--accent-color2);
+  stroke-width: 2;
+  transition: stroke 160ms ease, stroke-width 160ms ease, opacity 140ms ease;
 }
 
 /* Labels */
 .nodeLabel {
-    fill: var(--text-color1);
-    font-size: 18px;
-    letter-spacing: 0.08em;
-    pointer-events: none;
+  fill: var(--text-color1);
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
 }
 
 /* Icons */
 .nodeIcon {
-    pointer-events: none;
-    opacity: 0.95;
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+  opacity: 0.95;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
 }
 
 /* Interactions */
 .node {
-    cursor: pointer;
-    outline: none;
-    transform-box: fill-box;
-    transform-origin: center;
-    transition: transform 180ms ease, opacity 140ms ease;
+  cursor: pointer;
+  outline: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 180ms ease, opacity 140ms ease;
 }
 
 .node:hover {
-    transform: translateY(-4px);
+  transform: translateY(-5px);
 }
 
-/* Border-only glow like your reference image */
 .node:hover .nodeRect {
-    stroke: rgba(9, 230, 246, 0.95);
-    stroke-width: 2.4;
-    filter: url(#strokeGlow);
+  stroke: var(--accent-color2);
+  stroke-width: 2.4;
+  filter: url(#strokeGlow);
 }
 
 .coreNode:hover .coreCircle {
-    stroke: rgba(94, 235, 138, 0.95);
-    stroke-width: 2.8;
-    filter: url(#strokeGlow);
+  stroke: var(--accent-color1);
+  stroke-width: 2.8;
+  filter: url(#strokeGlow);
 }
 
-/* Keyboard focus */
 .node:focus-visible .nodeRect {
-    stroke: rgba(9, 230, 246, 0.95);
-    stroke-width: 2.4;
-    filter: url(#strokeGlow);
+  stroke: var(--accent-color2);
+  stroke-width: 2.4;
+  filter: url(#strokeGlow);
 }
 
 .coreNode:focus-visible .coreCircle {
-    stroke: rgba(94, 235, 138, 0.95);
-    stroke-width: 2.8;
-    filter: url(#strokeGlow);
+  stroke: var(--accent-color1);
+  stroke-width: 2.8;
+  filter: url(#strokeGlow);
 }
 
-/* Dim */
 .dim {
-    opacity: 0.25;
-    filter: saturate(0.6);
+  opacity: 0.25;
+  filter: saturate(0.6);
 }
 
 .dim .nodeRect,
 .dim .coreCircle {
-    filter: none !important;
+  filter: none !important;
 }
 
 .coreNode .nodeLabel {
-    font-size: 30px;
+  font-size: 30px;
 }
 
-/* Arrowheads */
 .arrowHead {
-    fill: var(--accent-color2);
-    opacity: 0.95;
+  fill: var(--accent-color2);
+  opacity: 0.95;
 }
 
-/* Tooltip */
 .tooltip {
-    position: absolute;
-    transform: translate(-50%, calc(-100% - 16px));
-    min-width: 180px;
-    max-width: 260px;
+  position: absolute;
+  left: 0;
+  top: 0;
 
-    padding: 12px 12px 10px;
-    border-radius: 12px;
+  transform: translate(var(--ox, 14px), var(--oy, 14px));
 
-    background: rgba(14, 11, 39, 0.88);
-    border: 1px solid rgba(9, 230, 246, 0.35);
+  min-width: 180px;
+  max-width: 260px;
 
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.60);
-    backdrop-filter: blur(10px);
+  padding: 12px 12px 10px;
+  border-radius: 12px;
 
-    color: var(--text-color1);
-    pointer-events: none;
-    z-index: 10;
-}
+  background: var(--bg-color1);
+  border: 1px solid var(--primary-color1);
 
-.tooltip::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -10px;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.60);
+  backdrop-filter: blur(10px);
 
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid rgba(14, 11, 39, 0.88);
-
-    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  color: var(--text-color1);
+  pointer-events: none;
+  z-index: 10;
 }
 
 .tooltipTitle {
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    font-weight: 600;
-    margin-bottom: 6px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .tooltipDesc {
-    font-size: 12px;
-    line-height: 1.35;
-    color: rgba(220, 227, 238, 0.78);
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--text-color2);
 }
 
 .tooltipHint {
-    margin-top: 8px;
-    font-size: 11px;
-    color: rgba(220, 227, 238, 0.55);
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-color2);
 }
 
-/* Mobile/tablet text sizing (layout switch is in JS at 900px) */
-@media (max-width: 900px) {
-    .skillsSection {
-        padding: 3rem 1rem 4rem;
-    }
+.tooltipNarrow {
+  transform: translate(-50%, calc(-100% - 16px));
+}
 
-    .stage {
-        width: 100%;
-    }
+.tooltipNarrow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
 
-    .nodeLabel {
-        font-size: 11px;
-        letter-spacing: 0.06em;
-    }
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid rgba(14, 11, 39, 0.88);
 
-    .coreNode .nodeLabel {
-        font-size: 18px;
-    }
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
 
-    .tooltip {
-        min-width: 160px;
-        max-width: 220px;
-        pointer-events: auto;
-    }
+@media (max-width: 1100px) {
+  .skillsSection {
+    padding: 3rem 1rem 4rem;
+  }
+
+  .stage {
+    width: 100%;
+  }
+
+  .nodeLabel {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .coreNode .nodeLabel {
+    font-size: 18px;
+  }
+
+  .tooltip {
+    min-width: 160px;
+    max-width: 220px;
+    pointer-events: auto;
+  }
 }

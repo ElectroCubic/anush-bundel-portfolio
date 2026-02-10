@@ -1,5 +1,59 @@
 import styles from "./SkillsSection.module.css";
 
+const UI = {
+    arrow: {
+        size: { narrow: 3, wide: 4 },
+        offset: { narrow: 50, wide: 90 },
+    },
+    wire: {
+        baseWidth: { narrow: 3.4, wide: 4.4 },
+        glowWidth: { narrow: 7.5, wide: 9.5 },
+        glowOpacity: { onPath: 0.38, offPath: 0.0 },
+        baseOpacity: { dim: 0.10, onPath: 0.90, idle: 0.58 },
+        color: "var(--accent-color2)",
+    },
+    filters: {
+        strokeGlowBlur: 6,
+        wireGlowBlur: { narrow: 2.8, wide: 4.2 },
+        nodeShadow: {
+            dx: 0,
+            dy: { narrow: 6, wide: 10 },
+            stdDev: { narrow: 9, wide: 14 },
+            color: "rgba(0,0,0,0.75)",
+        },
+        coreGlowBlur: { narrow: 9, wide: 12 },
+    },
+    text: {
+        lineH: { narrow: 12, wide: 16 },
+        iconYOffset: {
+            core: { narrow: 10, wide: 16 },
+            normal: { narrow: 10, wide: 14 },
+        },
+        bottomPadding: {
+            core: { narrow: 18, wide: 28 },
+            normal: { narrow: 14, wide: 22 },
+        },
+    },
+    icon: {
+        size: {
+            core: { narrow: 40, wide: 92 },
+            normal: { narrow: 60, wide: 117 },
+        },
+        yOffsetFromCenter: {
+            core: { narrow: 18, wide: 26 },
+            normal: { narrow: 12, wide: 22 },
+        },
+    },
+    coreFill: {
+        from: "var(--accent-color1)",
+        to: "var(--accent-color2)",
+    },
+};
+
+function pick(narrowVal, wideVal, isNarrow) {
+    return isNarrow ? narrowVal : wideVal;
+}
+
 function SkillTreeSvg({
     nodes,
     edges,
@@ -16,22 +70,33 @@ function SkillTreeSvg({
     onTap,
     svgRef,
 }) {
-    const arrowSize = isNarrow ? 3 : 4;
-    const baseWireW = isNarrow ? 3.4 : 4.4;
-    const glowWireW = isNarrow ? 7.5 : 9.5;
-    const arrowOffset = isNarrow ? 45 : 90;
+    const arrowSize = pick(UI.arrow.size.narrow, UI.arrow.size.wide, isNarrow);
+    const arrowOffset = pick(UI.arrow.offset.narrow, UI.arrow.offset.wide, isNarrow);
 
-    const renderLabel = (label, x, y, hasIcon, type) => {
+    const baseWireW = pick(UI.wire.baseWidth.narrow, UI.wire.baseWidth.wide, isNarrow);
+    const glowWireW = pick(UI.wire.glowWidth.narrow, UI.wire.glowWidth.wide, isNarrow);
+
+    const wireGlowBlur = pick(UI.filters.wireGlowBlur.narrow, UI.filters.wireGlowBlur.wide, isNarrow);
+    const nodeShadowDy = pick(UI.filters.nodeShadow.dy.narrow, UI.filters.nodeShadow.dy.wide, isNarrow);
+    const nodeShadowStd = pick(UI.filters.nodeShadow.stdDev.narrow, UI.filters.nodeShadow.stdDev.wide, isNarrow);
+    const coreGlowBlur = pick(UI.filters.coreGlowBlur.narrow, UI.filters.coreGlowBlur.wide, isNarrow);
+
+    // Bottom-aligned label (still supports \n)
+    const renderLabel = (label, x, y, type) => {
         const lines = String(label).split("\n");
-        const lineH = isNarrow ? 12 : 16;
-        const yOffset = hasIcon
-            ? (type === "core"
-                ? (isNarrow ? 10 : 16)
-                : (isNarrow ? 10 : 14))
-            : 0;
+        const lineH = pick(UI.text.lineH.narrow, UI.text.lineH.wide, isNarrow);
 
-        const totalH = (lines.length - 1) * lineH;
-        const startY = (y + yOffset) - totalH / 2;
+        const bottomPad =
+            type === "core"
+                ? pick(UI.text.bottomPadding.core.narrow, UI.text.bottomPadding.core.wide, isNarrow)
+                : pick(UI.text.bottomPadding.normal.narrow, UI.text.bottomPadding.normal.wide, isNarrow);
+
+        // place the block of text close to bottom of the node
+        const nodeHalfH = type === "core" ? layout.coreD / 2 : layout.nodeH / 2;
+
+        // If multi-line, lift up so it doesn't go outside
+        const blockH = (lines.length - 1) * lineH;
+        const startY = y + nodeHalfH - bottomPad - blockH;
 
         return (
             <text
@@ -61,7 +126,7 @@ function SkillTreeSvg({
         >
             <defs>
                 <filter id="strokeGlow" x="-60%" y="-60%" width="220%" height="220%">
-                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feGaussianBlur stdDeviation={UI.filters.strokeGlowBlur} result="blur" />
                     <feMerge>
                         <feMergeNode in="blur" />
                         <feMergeNode in="SourceGraphic" />
@@ -69,7 +134,7 @@ function SkillTreeSvg({
                 </filter>
 
                 <filter id="wireGlow" x="-60%" y="-60%" width="220%" height="220%">
-                    <feGaussianBlur stdDeviation={isNarrow ? 2.8 : 4.2} result="blur" />
+                    <feGaussianBlur stdDeviation={wireGlowBlur} result="blur" />
                     <feMerge>
                         <feMergeNode in="blur" />
                         <feMergeNode in="SourceGraphic" />
@@ -78,15 +143,15 @@ function SkillTreeSvg({
 
                 <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
                     <feDropShadow
-                        dx="0"
-                        dy={isNarrow ? 6 : 10}
-                        stdDeviation={isNarrow ? 9 : 14}
-                        floodColor="rgba(0,0,0,0.55)"
+                        dx={UI.filters.nodeShadow.dx}
+                        dy={nodeShadowDy}
+                        stdDeviation={nodeShadowStd}
+                        floodColor={UI.filters.nodeShadow.color}
                     />
                 </filter>
 
                 <filter id="coreGlow" x="-70%" y="-70%" width="240%" height="240%">
-                    <feGaussianBlur stdDeviation={isNarrow ? 9 : 12} result="cblur" />
+                    <feGaussianBlur stdDeviation={coreGlowBlur} result="cblur" />
                     <feMerge>
                         <feMergeNode in="cblur" />
                         <feMergeNode in="SourceGraphic" />
@@ -94,8 +159,8 @@ function SkillTreeSvg({
                 </filter>
 
                 <linearGradient id="coreFill" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#5EEB8A" />
-                    <stop offset="100%" stopColor="#7AA2F7" />
+                    <stop offset="0%" stopColor={UI.coreFill.from} />
+                    <stop offset="100%" stopColor={UI.coreFill.to} />
                 </linearGradient>
 
                 <marker
@@ -122,8 +187,13 @@ function SkillTreeSvg({
                     const onPath = isPathEdge(a, b);
                     const dim = activeId ? !onPath : false;
 
-                    const glowOpacity = onPath ? 0.38 : 0;
-                    const baseOpacity = dim ? 0.10 : onPath ? 0.90 : 0.58;
+                    const glowOpacity = onPath ? UI.wire.glowOpacity.onPath : UI.wire.glowOpacity.offPath;
+
+                    const baseOpacity = dim
+                        ? UI.wire.baseOpacity.dim
+                        : onPath
+                            ? UI.wire.baseOpacity.onPath
+                            : UI.wire.baseOpacity.idle;
 
                     const dx = p2.x - p1.x;
                     const dy = p2.y - p1.y;
@@ -145,7 +215,7 @@ function SkillTreeSvg({
                                     vectorEffect="non-scaling-stroke"
                                     filter="url(#wireGlow)"
                                     style={{
-                                        stroke: "var(--accent-color2)",
+                                        stroke: UI.wire.color,
                                         strokeWidth: glowWireW,
                                         strokeLinecap: "round",
                                         opacity: glowOpacity,
@@ -161,7 +231,7 @@ function SkillTreeSvg({
                                 vectorEffect="non-scaling-stroke"
                                 markerEnd="url(#arrowHead)"
                                 style={{
-                                    stroke: "var(--accent-color2)",
+                                    stroke: UI.wire.color,
                                     strokeWidth: baseWireW,
                                     strokeLinecap: "round",
                                     opacity: baseOpacity,
@@ -185,7 +255,7 @@ function SkillTreeSvg({
                     const hasIcon = !!n.icon;
 
                     const handlers = {
-                        onMouseEnter: () => onEnter(n.id),
+                        onMouseEnter: (e) => onEnter(n.id, e),
                         onMouseLeave: onLeave,
                         onFocus: () => onEnter(n.id),
                         onBlur: onLeave,
@@ -196,12 +266,14 @@ function SkillTreeSvg({
                     };
 
                     const iconSize = type === "core"
-                        ? (isNarrow ? 26 : 40)
-                        : (isNarrow ? 20 : 32);
+                        ? pick(UI.icon.size.core.narrow, UI.icon.size.core.wide, isNarrow)
+                        : pick(UI.icon.size.normal.narrow, UI.icon.size.normal.wide, isNarrow);
 
-                    const iconY = type === "core"
-                        ? c.y - (isNarrow ? 18 : 26)
-                        : c.y - (isNarrow ? 16 : 26);
+                    const iconOffset = type === "core"
+                        ? pick(UI.icon.yOffsetFromCenter.core.narrow, UI.icon.yOffsetFromCenter.core.wide, isNarrow)
+                        : pick(UI.icon.yOffsetFromCenter.normal.narrow, UI.icon.yOffsetFromCenter.normal.wide, isNarrow);
+
+                    const iconY = c.y - iconOffset + iconSize * 0.1;
 
                     if (type === "core") {
                         return (
@@ -234,7 +306,7 @@ function SkillTreeSvg({
                                     />
                                 )}
 
-                                {renderLabel(n.label, c.x, c.y, hasIcon, type)}
+                                {renderLabel(n.label, c.x, c.y, type)}
                             </g>
                         );
                     }
@@ -271,7 +343,7 @@ function SkillTreeSvg({
                                 />
                             )}
 
-                            {renderLabel(n.label, c.x, c.y, hasIcon, type)}
+                            {renderLabel(n.label, c.x, c.y, type)}
                         </g>
                     );
                 })}
@@ -280,4 +352,4 @@ function SkillTreeSvg({
     );
 }
 
-export default SkillTreeSvg
+export default SkillTreeSvg;

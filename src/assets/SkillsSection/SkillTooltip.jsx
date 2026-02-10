@@ -1,12 +1,18 @@
 import styles from "./SkillsSection.module.css";
 
-function SkillTooltip({ tooltip, isNarrow, onClick }) {
+export default function SkillTooltip({ tooltip, isNarrow, onClick, tooltipRef }) {
   if (!tooltip) return null;
+
+  const style =
+    isNarrow && tooltip.x != null && tooltip.y != null
+      ? { left: tooltip.x, top: tooltip.y }
+      : undefined;
 
   return (
     <div
-      className={styles.tooltip}
-      style={{ left: tooltip.x, top: tooltip.y }}
+      ref={tooltipRef}
+      className={`${styles.tooltip} ${isNarrow ? styles.tooltipNarrow : ""}`}
+      style={style}
       role="tooltip"
       onClick={onClick}
     >
@@ -16,5 +22,3 @@ function SkillTooltip({ tooltip, isNarrow, onClick }) {
     </div>
   );
 }
-
-export default SkillTooltip

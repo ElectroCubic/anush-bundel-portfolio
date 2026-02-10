@@ -6,9 +6,9 @@ function useSkillTreeLayout({ nodes, isNarrow }) {
     if (isNarrow) {
       return {
         cols: 7, rows: 12,
-        pitchX: 92, pitchY: 92,
+        pitchX: 82, pitchY: 82,
         padX: 26, padY: 26,
-        nodeW: 78, nodeH: 78, nodeR: 16,
+        nodeW: 90, nodeH: 90, nodeR: 16,
         coreD: 96,
         pos: POS_MOBILE,
       };
