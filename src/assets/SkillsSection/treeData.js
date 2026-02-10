@@ -2,7 +2,7 @@ export const ROOT_ID = "core";
 
 export const TREE = {
     id: "core",
-    label: "",
+    label: "Core",
     type: "core",
     // icon: "/icons/core.svg",
     // desc: "Your foundation.",
@@ -13,32 +13,58 @@ export const TREE = {
             icon: "/icons/python.svg",
             desc: "Scripting & tooling.",
             children: [
-                { id: "pygame", label: "Pygame", children: [] },
+                { 
+                    id: "pygame", 
+                    label: "Pygame",
+                    icon: "/icons/pygame.svg",
+                    desc: "Framework",  
+                    children: [] 
+                },
             ],
         },
         {
             id: "git",
             label: "Git",
+            icon: "/icons/git.svg",
+            desc: "git for github",
             children: [
-                { id: "github", label: "GitHub", children: [] },
+                {   
+                    id: "github", 
+                    label: "GitHub",
+                    icon: "/icons/github.svg",
+                    desc: "Version Control", 
+                    children: [] 
+                },
             ],
         },
         {
-            id: "gdscript",
-            label: "GDScript",
+            id: "godot",
+            label: "Godot",
+            icon: "/icons/godot.svg",
             children: [
                 {
-                    id: "godot",
-                    label: "Godot",
+                    id: "aseprite",
+                    label: "Aseprite",
+                    icon: "/icons/aseprite.svg",
                     children: [
-                        { id: "fl", label: "FL Studio", children: [] },
-                        {
-                            id: "aseprite",
-                            label: "Aseprite",
-                            children: [
-                                { id: "figma", label: "Figma", children: [] },
-                            ],
+                        { 
+                            id: "fl", 
+                            label: "FL Studio",
+                            icon: "/icons/flstudio.png", 
+                            children: [] 
                         },
+                        { 
+                            id: "figma", 
+                            label: "Figma",
+                            icon: "/icons/figma.svg",  
+                            children: [
+                            { 
+                                id: "blender", 
+                                label: "Blender",
+                                icon: "/icons/blender.svg",  
+                                children: [] 
+                            },
+                        ] },
                     ],
                 },
             ],
@@ -46,20 +72,29 @@ export const TREE = {
         {
             id: "vsc",
             label: "VSC",
+            icon: "/icons/vscode.svg", 
             children: [
                 {
                     id: "html",
                     label: "HTML",
+                    icon: "/icons/html5.svg", 
                     children: [
                         {
                             id: "css",
                             label: "CSS",
+                            icon: "/icons/css3.svg", 
                             children: [
                                 {
                                     id: "js",
                                     label: "JS",
+                                    icon: "/icons/javascript.svg", 
                                     children: [
-                                        { id: "react", label: "React", children: [] },
+                                        { 
+                                            id: "react", 
+                                            label: "React",
+                                            icon: "/icons/react.svg",  
+                                            children: [] 
+                                        },
                                     ],
                                 },
                             ],
@@ -69,8 +104,14 @@ export const TREE = {
                 {
                     id: "csharp",
                     label: "C#",
+                    icon: "/icons/csharp.svg", 
                     children: [
-                        { id: "unity", label: "Unity", children: [] },
+                        { 
+                            id: "unity", 
+                            label: "Unity",
+                            icon: "/icons/unity.svg",  
+                            children: [] 
+                        },
                     ],
                 },
             ],
@@ -87,10 +128,10 @@ export const POS_DESKTOP = {
 
     github: { col: 5, row: 4 },
     git: { col: 7, row: 4 },
-    gdscript: { col: 11, row: 4 },
-    godot: { col: 13, row: 4 },
-    aseprite: { col: 15, row: 4 },
-    figma: { col: 17, row: 4 },
+    godot: { col: 11, row: 4 },
+    aseprite: { col: 13, row: 4 },
+    figma: { col: 15, row: 4 },
+    blender: { col: 17, row: 4 },
 
     react: { col: 1, row: 6 },
     js: { col: 3, row: 6 },
@@ -107,11 +148,11 @@ export const POS_MOBILE = {
     python: { col: 6, row: 2 },
     pygame: { col: 6, row: 4 },
 
-    gdscript: { col: 6, row: 6 },
-    godot: { col: 6, row: 8 },
+    godot: { col: 6, row: 6 },
     fl: { col: 6, row: 12 },
-    aseprite: { col: 4, row: 10 },
-    figma: { col: 4, row: 12 },
+    aseprite: { col: 6, row: 8 },
+    figma: { col: 4, row: 10 },
+    blender: { col: 4, row: 12 },
 
     git: { col: 2, row: 2 },
     github: { col: 2, row: 4 },

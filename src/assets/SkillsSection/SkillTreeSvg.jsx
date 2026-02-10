@@ -37,7 +37,7 @@ const UI = {
     icon: {
         size: {
             core: { narrow: 40, wide: 92 },
-            normal: { narrow: 60, wide: 117 },
+            normal: { narrow: 50, wide: 92 },
         },
         yOffsetFromCenter: {
             core: { narrow: 18, wide: 26 },

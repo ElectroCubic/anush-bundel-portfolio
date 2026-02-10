@@ -1,4 +1,5 @@
-function flattenTree(root) {
+function flattenTree(root) 
+{
   const nodes = [];
   const edges = [];
   const parentById = new Map();
@@ -24,4 +25,5 @@ function flattenTree(root) {
 
   return { nodes, edges, parentById };
 }
+
 export default flattenTree
