@@ -5,7 +5,7 @@ export const TREE = {
     label: "Core",
     type: "core",
     // icon: "/icons/core.svg",
-    // desc: "Your foundation.",
+    desc: "Soft Skills",
     children: [
         {
             id: "python",

@@ -9,7 +9,7 @@ function useSkillTreeLayout({ nodes, isNarrow }) {
         pitchX: 82, pitchY: 82,
         padX: 26, padY: 26,
         nodeW: 90, nodeH: 90, nodeR: 16,
-        coreD: 96,
+        coreD: 80,
         pos: POS_MOBILE,
       };
     }
@@ -18,7 +18,7 @@ function useSkillTreeLayout({ nodes, isNarrow }) {
       pitchX: 115, pitchY: 125,
       padX: 70, padY: 60,
       nodeW: 160, nodeH: 160, nodeR: 26,
-      coreD: 150,
+      coreD: 130,
       pos: POS_DESKTOP,
     };
   }, [isNarrow]);

@@ -44,9 +44,10 @@
 }
 
 .coreCircle {
-  stroke: var(--accent-color2);
-  stroke-width: 2;
-  transition: stroke 160ms ease, stroke-width 160ms ease, opacity 140ms ease;
+  fill: url(#coreFill);
+  stroke: var(--primary-color1);
+  stroke-width: 0.8;
+  transition: stroke 180ms ease, stroke-width 160ms ease, opacity 140ms ease;
 }
 
 /* Labels */
@@ -60,8 +61,7 @@
 /* Icons */
 .nodeIcon {
   pointer-events: none;
-  opacity: 0.95;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.75));
 }
 
 /* Interactions */
@@ -77,30 +77,22 @@
   transform: translateY(-5px);
 }
 
-.node:hover .nodeRect {
-  stroke: var(--accent-color2);
-  stroke-width: 2.4;
-  filter: url(#strokeGlow);
-}
-
-.coreNode:hover .coreCircle {
-  stroke: var(--accent-color1);
-  stroke-width: 2.8;
-  filter: url(#strokeGlow);
-}
-
+/* Border-only glow */
+.node:hover .nodeRect,
 .node:focus-visible .nodeRect {
   stroke: var(--accent-color2);
   stroke-width: 2.4;
   filter: url(#strokeGlow);
 }
 
-.coreNode:focus-visible .coreCircle {
-  stroke: var(--accent-color1);
-  stroke-width: 2.8;
+.node:hover .coreCircle,
+.node:focus-visible .coreCircle {
+  stroke: var(--accent-color2);
+  stroke-width: 2.0;
   filter: url(#strokeGlow);
 }
 
+/* Dim */
 .dim {
   opacity: 0.25;
   filter: saturate(0.6);
@@ -111,15 +103,13 @@
   filter: none !important;
 }
 
-.coreNode .nodeLabel {
-  font-size: 30px;
-}
-
+/* Arrowheads */
 .arrowHead {
   fill: var(--accent-color2);
   opacity: 0.95;
 }
 
+/* Tooltip */
 .tooltip {
   position: absolute;
   left: 0;
@@ -163,6 +153,7 @@
   color: var(--text-color2);
 }
 
+/* Mobile/tablet tooltip stays above node, with arrow */
 .tooltipNarrow {
   transform: translate(-50%, calc(-100% - 16px));
 }
@@ -172,7 +163,7 @@
   position: absolute;
   left: 50%;
   bottom: -10px;
-  transform: translateX(-50%);
+  transform: translateX(-70%);
   width: 0;
   height: 0;
 
@@ -195,10 +186,6 @@
   .nodeLabel {
     font-size: 11px;
     letter-spacing: 0.06em;
-  }
-
-  .coreNode .nodeLabel {
-    font-size: 18px;
   }
 
   .tooltip {

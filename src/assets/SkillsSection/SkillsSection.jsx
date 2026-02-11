@@ -13,14 +13,13 @@ function SkillsSection() {
   const isNarrow = useMediaQuery("(max-width: 1100px)");
 
   const [activeId, setActiveId] = useState(null);
-  // tooltip now only stores content + base anchor (x,y). actual tracking uses DOM updates
   const [tooltip, setTooltip] = useState(null);
 
   const stageRef = useRef(null);
   const svgRef = useRef(null);
   const tooltipRef = useRef(null);
 
-  // For smooth tracking
+  // Smooth tracking
   const rafRef = useRef(0);
   const lastPointerRef = useRef({ x: 0, y: 0 });
 
@@ -61,7 +60,7 @@ function SkillsSection() {
     };
   };
 
-  // ---- Core: position tooltip DOM near mouse, flip/clamp inside stage ----
+  // Position tooltip near cursor + flip/clamp
   const positionTooltipAtClient = (clientX, clientY) => {
     const stageEl = stageRef.current;
     const tipEl = tooltipRef.current;
@@ -73,29 +72,22 @@ function SkillsSection() {
     const margin = 14;
     const pad = 10;
 
-    // Base anchor in stage coordinates
     let { left: x, top: y } = clientToStageXY(clientX, clientY);
 
-    // Flip logic (based on actual tooltip size)
     const spaceRight = stageRect.right - clientX;
     const spaceBottom = stageRect.bottom - clientY;
 
     const ox = spaceRight < tipRect.width + margin ? -(tipRect.width + margin) : margin;
     const oy = spaceBottom < tipRect.height + margin ? -(tipRect.height + margin) : margin;
 
-    // Apply offsets via CSS vars
     tipEl.style.setProperty("--ox", `${ox}px`);
     tipEl.style.setProperty("--oy", `${oy}px`);
 
-    // Place the anchor
     tipEl.style.left = `${x}px`;
     tipEl.style.top = `${y}px`;
 
-    // Clamp inside stage AFTER transform offsets
-    // (measure again after styles apply)
     const afterRect = tipEl.getBoundingClientRect();
 
-    // Nudge to keep inside stage bounds
     let nudgeX = 0;
     let nudgeY = 0;
 
@@ -125,17 +117,14 @@ function SkillsSection() {
     const title = meta?.label ?? id;
     const desc = meta?.desc ?? "";
 
-    // Desktop: tooltip content + initial position near cursor
+    // Desktop: show near cursor
     if (!isNarrow && evt?.clientX != null && evt?.clientY != null) {
       setTooltip({ id, title, desc });
-      // Next tick: tooltip exists in DOM, so we can measure & position
-      requestAnimationFrame(() => {
-        scheduleTooltipTrack(evt.clientX, evt.clientY);
-      });
+      requestAnimationFrame(() => scheduleTooltipTrack(evt.clientX, evt.clientY));
       return;
     }
 
-    // Mobile/tablet: anchor to node center (your old behavior)
+    // Narrow: anchor to node
     const c = centers.get(id);
     if (!c) return;
     const pos = svgToStageXY(c.x, c.y);
@@ -162,7 +151,7 @@ function SkillsSection() {
     showTooltipFor(id);
   };
 
-  // Desktop: track tooltip smoothly while it’s open
+  // Desktop tracking while tooltip open
   useEffect(() => {
     if (isNarrow) return;
     if (!tooltip?.id) return;
@@ -171,17 +160,15 @@ function SkillsSection() {
     if (!stageEl) return;
 
     const onMove = (e) => {
-      if (!activeId) return;
-      // only track if tooltip open (desktop)
       if (!tooltipRef.current) return;
       scheduleTooltipTrack(e.clientX, e.clientY);
     };
 
     stageEl.addEventListener("pointermove", onMove);
     return () => stageEl.removeEventListener("pointermove", onMove);
-  }, [isNarrow, tooltip?.id, activeId]);
+  }, [isNarrow, tooltip?.id]);
 
-  // Mobile/tablet: click outside closes tooltip
+  // Narrow: click outside closes
   useEffect(() => {
     if (!isNarrow) return;
 
@@ -205,11 +192,9 @@ function SkillsSection() {
 
     const onResize = () => {
       if (!isNarrow) {
-        // desktop: reposition using last pointer
         const { x, y } = lastPointerRef.current;
         if (x && y) scheduleTooltipTrack(x, y);
       } else {
-        // mobile: reposition anchored to node
         const c = centers.get(tooltip.id);
         if (!c) return;
         const pos = svgToStageXY(c.x, c.y);
