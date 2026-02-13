@@ -31,8 +31,8 @@ const UI = {
   },
   icon: {
     size: {
-      core: { narrow: 52, wide: 110 },
-      normal: { narrow: 56, wide: 98 },
+      core: { narrow: 52, wide: 90 },
+      normal: { narrow: 56, wide: 82 },
     },
     yOffsetFromCenter: {
       core: { narrow: 0, wide: 0 },
@@ -293,7 +293,7 @@ function SkillTreeSvg({
                     y={iconY - iconSize / 2}
                     width={iconSize}
                     height={iconSize}
-                    className={styles.nodeIcon}
+                    className={`${styles.nodeIcon} ${styles.coreIcon}`}
                     preserveAspectRatio="xMidYMid meet"
                   />
                 )}

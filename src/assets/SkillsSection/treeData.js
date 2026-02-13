@@ -2,22 +2,22 @@ export const ROOT_ID = "core";
 
 export const TREE = {
     id: "core",
-    label: "Core",
+    label: "Core Skills",
     type: "core",
-    // icon: "/icons/core.svg",
-    desc: "Soft Skills",
+    icon: "/icons/cog.svg",
+    desc: "Strong foundation in DSA, OOPS architecture, scalable system design, and real-world problem solving.",
     children: [
         {
             id: "python",
             label: "Python",
             icon: "/icons/python.svg",
-            desc: "Scripting & tooling.",
+            desc: "Scripting, tooling and application development.",
             children: [
                 { 
                     id: "pygame", 
                     label: "Pygame",
                     icon: "/icons/pygame.svg",
-                    desc: "Framework",  
+                    desc: "2D game mechanics, event loops, collision systems, and custom rendering logic.",  
                     children: [] 
                 },
             ],
@@ -26,13 +26,13 @@ export const TREE = {
             id: "git",
             label: "Git",
             icon: "/icons/git.svg",
-            desc: "git for github",
+            desc: "Version control, branching, conflict resolution, and collaborative workflows.",
             children: [
                 {   
                     id: "github", 
                     label: "GitHub",
                     icon: "/icons/github.svg",
-                    desc: "Version Control", 
+                    desc: "Project hosting, issue tracking, and versioned releases.", 
                     children: [] 
                 },
             ],
@@ -41,27 +41,32 @@ export const TREE = {
             id: "godot",
             label: "Godot",
             icon: "/icons/godot.svg",
+            desc: "Primary Game Engine for Game architecture, scene systems, scripting, and gameplay logic implementation.",
             children: [
                 {
                     id: "aseprite",
                     label: "Aseprite",
                     icon: "/icons/aseprite.svg",
+                    desc: "Pixel art creation, animation spritesheets, and asset pipeline optimization.",
                     children: [
                         { 
                             id: "fl", 
                             label: "FL Studio",
-                            icon: "/icons/flstudio.png", 
+                            icon: "/icons/flstudio.png",
+                            desc: "Sound design, SFX and BGM composition, and audio production workflows.", 
                             children: [] 
                         },
                         { 
                             id: "figma", 
                             label: "Figma",
-                            icon: "/icons/figma.svg",  
+                            icon: "/icons/figma.svg",
+                            desc: "UI layout systems, component-based design, and interaction prototyping.",  
                             children: [
                             { 
                                 id: "blender", 
                                 label: "Blender",
-                                icon: "/icons/blender.svg",  
+                                icon: "/icons/blender.svg",
+                                desc: "Basic 3D modeling, asset export pipelines, and low-poly optimization.",  
                                 children: [] 
                             },
                         ] },
@@ -71,28 +76,33 @@ export const TREE = {
         },
         {
             id: "vsc",
-            label: "VSC",
-            icon: "/icons/vscode.svg", 
+            label: "VS Code",
+            icon: "/icons/vscode.svg",
+            desc: "Development environment customization, debugging workflows, and productivity tooling.", 
             children: [
                 {
                     id: "html",
                     label: "HTML",
-                    icon: "/icons/html5.svg", 
+                    icon: "/icons/html5.svg",
+                    desc: "Semantic structure, accessibility fundamentals, and SEO-aware markup.", 
                     children: [
                         {
                             id: "css",
                             label: "CSS",
-                            icon: "/icons/css3.svg", 
+                            icon: "/icons/css3.svg",
+                            desc: "Responsive layouts, animations, component styling, and design systems.", 
                             children: [
                                 {
                                     id: "js",
-                                    label: "JS",
-                                    icon: "/icons/javascript.svg", 
+                                    label: "JavaScript",
+                                    icon: "/icons/javascript.svg",
+                                    desc: "Asynchronous logic, DOM manipulation, state handling, and modular architecture.", 
                                     children: [
                                         { 
                                             id: "react", 
                                             label: "React",
-                                            icon: "/icons/react.svg",  
+                                            icon: "/icons/react.svg",
+                                            desc: "Component-based architecture, hooks, state management, and UI composition.",  
                                             children: [] 
                                         },
                                     ],
@@ -104,12 +114,14 @@ export const TREE = {
                 {
                     id: "csharp",
                     label: "C#",
-                    icon: "/icons/csharp.svg", 
+                    icon: "/icons/csharp.svg",
+                    desc: "Object-oriented programming, gameplay logic, and engine-level scripting.", 
                     children: [
                         { 
                             id: "unity", 
                             label: "Unity",
-                            icon: "/icons/unity.svg",  
+                            icon: "/icons/unity.svg",
+                            desc: "Scene systems, physics interactions, scripting behaviors, and gameplay systems.",  
                             children: [] 
                         },
                     ],

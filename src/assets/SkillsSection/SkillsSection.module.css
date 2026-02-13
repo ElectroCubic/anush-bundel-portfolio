@@ -58,10 +58,19 @@
   pointer-events: none;
 }
 
-/* Icons */
 .nodeIcon {
   pointer-events: none;
   filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.75));
+}
+
+.coreIcon {
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: transform 0.25s ease;
+}
+
+.node:hover .coreIcon {
+  transform: rotate(180deg);
 }
 
 /* Interactions */
@@ -135,25 +144,24 @@
 }
 
 .tooltipTitle {
-  font-size: 14px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
 .tooltipDesc {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.35;
   color: var(--text-color2);
 }
 
 .tooltipHint {
   margin-top: 8px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-color2);
 }
 
-/* Mobile/tablet tooltip stays above node, with arrow */
 .tooltipNarrow {
   transform: translate(-50%, calc(-100% - 16px));
 }

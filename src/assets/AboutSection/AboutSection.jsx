@@ -312,7 +312,7 @@ export default function AboutSection() {
             <div className={styles.textBlock}>
                 <h1>Who Am I?</h1>
                 <p>
-                    I'm a game developer passionate about building interactive systems and 
+                    I'm <b>Anush</b>, a game developer passionate about building interactive systems and 
                     unique gameplay mechanics. I take ideas and turn them into engaging gameplay experiences.
                     <br/><br/>
                     I enjoy participating in game jams and pushing myself to learn new tools and techniques through 
