@@ -1,16 +1,16 @@
 
 Ideas for website:
 
-- Landing page with background animation
+- landing page with background animation
 - dark mode toggle? (maybe)
-- Hero image profile glow effect
+- hero profile image glow effect
 - background images for project cards
-- cool custom favicon
-- Write a short "intro" page instead of a long about section
-- implement tactile buttons UI
+- adding a custom favicon
+- write a short "intro" page instead of a long about section
+- implement clicky buttons UI
 - interactive graphics and sprites??? (doubt)
-- Make the contact section more unique
-- Provide video explanations of each project
+- make the contact section more unique
+- provide video explanations of each project
 - add GIFs and screenshots for more visual variety
 - idk have some sort of scroll effect when scrolling
 - quick doc ref: https://drive.google.com/drive/folders/1EkWSiHJbV9cWH1K4CgJqYB05PrPTxj4R?usp=sharing
