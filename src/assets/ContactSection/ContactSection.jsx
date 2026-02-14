@@ -112,15 +112,15 @@ function ContactSection()
             <div className={styles.contactText}>
                 <h1>Let's Connect!</h1>
                 <p>
-                    I'm always open to joining teams and building cool projects. 
+                    I'm always open to joining teams and building <span className="hl">cool projects</span>. 
                     Whether it's big or small, doesn't matter.
                 <br />
                 <br />
-                    If you're interested in collaborating or 
-                    just want to exchange some thoughts, feel free to reach out.
+                    If you're interested in <span className="hl2">collaborating</span> or 
+                    just want to exchange some thoughts, feel free to <span className="hl3">reach out.</span>
                 <br />
                 <br />
-                    Even a simple 'Hi' works. :D
+                    Even a simple <span className="hl3">'Hi'</span>  works! :D
                 </p>
             </div>
 

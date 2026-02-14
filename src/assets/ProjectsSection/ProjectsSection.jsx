@@ -281,7 +281,7 @@ function ProjectsSection() {
     >
       <div className={styles.headingBar}>
         <h1 className={styles.heading}>Explore My Worlds</h1>
-        <p className={styles.subheading}>The Cool Stuff I've Worked Upon</p>
+        <p className={styles.subheading}>The <span className="hl">Cool Stuff</span> I've Worked Upon</p>
       </div>
 
       <div className={styles.cardsViewport}>

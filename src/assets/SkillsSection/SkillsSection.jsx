@@ -210,7 +210,7 @@ function SkillsSection() {
     <div className={styles.skillsSection}>
       <div className={styles.heading}>
         <h1>My Skill Tree</h1>
-        <p>Levelling Up My Expertise Everyday</p>
+        <p>Levelling Up <span className="hl2">My Expertise</span> Everyday</p>
       </div>
 
       <div
