@@ -18,7 +18,7 @@ function HeroSection()
                     mechanics, feedback, and player experience. </p>
 
                 <div className={styles.ctaButton}>
-                    <Button className={styles.heroCta} onClick={() => scrollTo("projects")}>
+                    <Button className={styles.heroCta} onClick={() => scrollTo("projects", 150)}>
                         Explore Projects
                         <FontAwesomeIcon icon={faForward} className={styles.icon} />
                     </Button>
@@ -44,7 +44,7 @@ function downloadResume() {
     link.remove();
 }
 
-function scrollTo(id, delay=150) {
+function scrollTo(id, delay=0) {
     setTimeout(() => { 
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }, delay);

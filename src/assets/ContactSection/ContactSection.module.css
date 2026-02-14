@@ -1,0 +1,42 @@
+.contactSection {
+    margin: 4.5rem auto;
+    padding: 4.5rem 0;  
+    max-width: 1300px; 
+    min-height: 70vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8.5rem;
+    align-items: center;
+    place-items: center;
+    justify-self: center;
+}
+
+.contactText {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.9rem;
+    justify-content: center;
+}
+
+.contactText h1 {
+    font-size: 3.5rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+
+.contactText p {
+    font-size: 1.3rem;
+    color: var(--text-color2);
+    line-height: 1.7;
+    text-align: center;
+    max-width: 45ch;
+    margin: 0 auto;
+}
+
+.contactBlock {
+    width: 100%;
+    max-width: 520px;
+    justify-self: end;
+}
