@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import styles from "./AboutSection.module.css";
-import TilePanel from "../TilePanel/TilePanel.jsx";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
+import styles from "./AboutSection.module.css"
+import TilePanel from "../TilePanel/TilePanel.jsx"
 
 const words = [
     { id: "design", label: "Design" },
@@ -53,7 +53,7 @@ function shuffleArray(originalArr) {
     return arr;
 }
 
-export default function AboutSection() {
+function AboutSection() {
     const [tiles, setTiles] = useState(() => shuffleArray(words));
 
     const [drag, setDrag] = useState({
@@ -257,10 +257,7 @@ export default function AboutSection() {
     };
 
     const onPointerMove = (e) => {
-        if (
-            !dragRef.current.pointerId ||
-            e.pointerId !== dragRef.current.pointerId
-        ) {
+        if (!dragRef.current.pointerId || e.pointerId !== dragRef.current.pointerId) {
             return;
         }
 
@@ -277,10 +274,7 @@ export default function AboutSection() {
     };
 
     const onPointerUpOrCancel = (e) => {
-        if (
-            !dragRef.current.pointerId ||
-            e.pointerId !== dragRef.current.pointerId
-        ) {
+        if (!dragRef.current.pointerId || e.pointerId !== dragRef.current.pointerId) {
             return;
         }
 
@@ -298,9 +292,7 @@ export default function AboutSection() {
         swap(from, to);
 
         try {
-            e.currentTarget.releasePointerCapture(
-                dragRef.current.pointerId
-            );
+            e.currentTarget.releasePointerCapture(dragRef.current.pointerId);
         } catch (_) {}
 
         dragRef.current.pointerId = null;
@@ -312,11 +304,12 @@ export default function AboutSection() {
             <div className={styles.textBlock}>
                 <h1>Who Am I?</h1>
                 <p>
-                    I'm <b>Anush</b>, a game developer passionate about building interactive systems and 
-                    unique gameplay mechanics. I take ideas and turn them into engaging gameplay experiences.
+                    I'm <span className={styles.hl}>Anush</span>, a <span className={styles.hl}>Game Developer</span> passionate 
+                    about building interactive <span className={styles.hl3}> systems</span> and unique<span className={styles.hl3}> gameplay mechanics</span>. 
+                    I take ideas and turn them into engaging gameplay experiences.
                     <br/><br/>
-                    I enjoy participating in game jams and pushing myself to learn new tools and techniques through 
-                    hands-on experimentation and rapid prototyping.
+                    I enjoy participating in <span className={styles.hl3}> Game Jams </span> and pushing myself to learn new tools 
+                    and techniques through hands-on <span className={styles.hl2}>experimentation</span> and <span className={styles.hl2}>rapid prototyping</span>. 
                 </p>
             </div>
 
@@ -372,9 +365,7 @@ export default function AboutSection() {
                                 data-index={idx}
                                 className={className}
                                 style={style}
-                                onPointerDown={(e) =>
-                                    onPointerDown(e, idx)
-                                }
+                                onPointerDown={(e) => onPointerDown(e, idx)}
                             />
                         );
                     })}
@@ -383,3 +374,5 @@ export default function AboutSection() {
         </div>
     );
 }
+
+export default AboutSection
