@@ -17,6 +17,21 @@
     min-width: 0;
 }
 
+.brandInner {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 2px solid rgba(255,255,255,0.15);
+}
+
 .hero {
     font-size: 1.3rem;
     font-weight: 500;
@@ -264,4 +279,8 @@
     .linksOpen {
         visibility: visible;
     }
+    .avatar {
+        width: 36px;
+        height: 36px;   
+    } 
 }

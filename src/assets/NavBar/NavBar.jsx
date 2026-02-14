@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import styles from "./NavBar.module.css";
+import { useEffect, useRef, useState } from "react"
+import profileLogo from "../ElectroCubicLogo_New.png"
+import styles from "./NavBar.module.css"
 
 const SECTIONS = [
     { id: "home", label: "Home" },
@@ -92,10 +93,18 @@ function NavBar() {
     return (
         <nav className={styles.navbar} ref={navRef}>
             <div className={styles.brand}>
-                <div className={styles.hero}>
-                    <a href="https://anushbundel.com">Anush Bundel</a>
+                <div className={styles.brandInner}>
+                    <img
+                        src={profileLogo}
+                        className={styles.avatar}
+                    />
+                    <div>
+                        <div className={styles.hero}>
+                            <a href="https://anushbundel.com">Anush Bundel</a>
+                        </div>
+                        <div className={styles.alias}>@ElectroCubic</div>
+                    </div>
                 </div>
-                <div className={styles.alias}>@ElectroCubic</div>
             </div>
 
             <button
