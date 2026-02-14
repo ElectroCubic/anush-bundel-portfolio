@@ -331,9 +331,10 @@ function ProjectsSection() {
             <FontAwesomeIcon icon={faArrowRight} className={styles.icon} />
           </button>
         </div>
-
-        <div ref={deckRef} className={styles.deck} aria-hidden="true">
-          <img src={profilePic} alt="ElectroCubic Logo" />
+        
+        {/* For tapping deck for later use */}
+        <div ref={deckRef} className={styles.deck} onClick={tapDeck} aria-hidden="true">
+          <img src={profilePic} alt="ElectroCubic Logo"/>
         </div>
       </div>
     </section>
