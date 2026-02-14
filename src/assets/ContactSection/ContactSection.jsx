@@ -112,15 +112,15 @@ function ContactSection()
             <div className={styles.contactText}>
                 <h1>Let's Connect!</h1>
                 <p>
-                    I enjoy talking about game design, systems, mechanics, and ideas in
-                    progress.
+                    I'm always open to joining teams and building cool projects. 
+                    Whether it's big or small, doesn't matter.
                 <br />
                 <br />
-                    If you're curious about my work, want to exchange thoughts, or
-                    explore a collaboration, feel free to reach out.
+                    If you're interested in collaborating or 
+                    just want to exchange some thoughts, feel free to reach out.
                 <br />
                 <br />
-                    You can even just say Hi! :D
+                    Even a simple 'Hi' works. :D
                 </p>
             </div>
 
