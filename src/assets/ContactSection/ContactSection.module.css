@@ -186,7 +186,7 @@ button.extraPill:hover {
   opacity: 0.75;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1300px) {
   .contactSection {
     grid-template-columns: 1fr;
     row-gap: 2.5rem;
@@ -197,6 +197,18 @@ button.extraPill:hover {
   .contactBlock {
     justify-self: center;
     max-width: 620px;
+  }
+
+  .contactText {
+    order: 1;
+  }
+
+  .contactBlock {
+    order: 2;
+  }
+
+  .footer {
+    order: 3;
   }
 
   .contactText h1 {

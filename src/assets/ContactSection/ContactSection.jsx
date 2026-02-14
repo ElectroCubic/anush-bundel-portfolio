@@ -1,4 +1,3 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faItchIo, faDiscord, faYoutube } from "@fortawesome/free-brands-svg-icons";
@@ -32,102 +31,102 @@ function openMail() {
     openExternal(gmailURL);
 }
 
-  const openGitHub = () => openExternal(LINKS["github"]);
-  const openLinkedIn = () => openExternal(LINKS["linkedin"]);
-  const openItchio = () => openExternal(LINKS["itch"]);
-  const openYouTube = () => openExternal(LINKS["youtube"]);
-  const openDiscord = () => openExternal(LINKS["discord"]);
+    const openGitHub = () => openExternal(LINKS["github"]);
+    const openLinkedIn = () => openExternal(LINKS["linkedin"]);
+    const openItchio = () => openExternal(LINKS["itch"]);
+    const openYouTube = () => openExternal(LINKS["youtube"]);
+    const openDiscord = () => openExternal(LINKS["discord"]);
 
 
 function ContactSection() 
 {
-  return (
-    <div className={styles.contactSection}>
-      <div className={styles.contactBlock}>
-        <div className={styles.card}>
-          <div className={styles.contactBtns}>
-            <Button className={styles.mailBtn} onClick={openMail}>
-              <span className={styles.btnIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={faEnvelope} />
-              </span>
-              <span>Email Me</span>
-            </Button>
+    return (
+        <div className={styles.contactSection}>
+            <div className={styles.contactBlock}>
+                <div className={styles.card}>
+                    <div className={styles.contactBtns}>
+                        <Button className={styles.mailBtn} onClick={openMail}>
+                        <span className={styles.btnIcon} aria-hidden="true">
+                            <FontAwesomeIcon icon={faEnvelope} />
+                        </span>
+                        <span>Email Me</span>
+                        </Button>
 
-            <Button className={styles.githubBtn} onClick={openGitHub}>
-              <span className={styles.btnIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={faGithub} />
-              </span>
-              <span>Github</span>
-            </Button>
+                        <Button className={styles.githubBtn} onClick={openGitHub}>
+                        <span className={styles.btnIcon} aria-hidden="true">
+                            <FontAwesomeIcon icon={faGithub} />
+                        </span>
+                        <span>Github</span>
+                        </Button>
 
-            <Button className={styles.linkedInBtn} onClick={openLinkedIn}>
-              <span className={styles.btnIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={faLinkedin} />
-              </span>
-              <span>LinkedIn</span>
-            </Button>
+                        <Button className={styles.linkedInBtn} onClick={openLinkedIn}>
+                        <span className={styles.btnIcon} aria-hidden="true">
+                            <FontAwesomeIcon icon={faLinkedin} />
+                        </span>
+                        <span>LinkedIn</span>
+                        </Button>
 
-            <Button className={styles.itchioBtn} onClick={openItchio}>
-              <span className={styles.btnIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={faItchIo} />
-              </span>
-              <span>Itch.io</span>
-            </Button>
-          </div>
+                        <Button className={styles.itchioBtn} onClick={openItchio}>
+                        <span className={styles.btnIcon} aria-hidden="true">
+                            <FontAwesomeIcon icon={faItchIo} />
+                        </span>
+                        <span>Itch.io</span>
+                        </Button>
+                    </div>
 
-          <div className={styles.extraRow}>
-            <button
-              className={styles.extraPill}
-              onClick={openYouTube}
-              type="button"
-            >
-              <span className={styles.pillIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={faYoutube} />
-              </span>
-              <span>ElectroCubicYT</span>
-            </button>
+                    <div className={styles.extraRow}>
+                        <button
+                        className={styles.extraPill}
+                        onClick={openYouTube}
+                        type="button"
+                        >
+                        <span className={styles.pillIcon} aria-hidden="true">
+                            <FontAwesomeIcon icon={faYoutube} />
+                        </span>
+                        <span>ElectroCubicYT</span>
+                        </button>
 
-            <button
-              className={styles.extraPill}
-              onClick={openDiscord}
-              type="button"
-            >
-              <span className={styles.pillIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={faDiscord} />
-              </span>
-              <span>electrocubic</span>
-            </button>
-          </div>
+                        <button
+                        className={styles.extraPill}
+                        onClick={openDiscord}
+                        type="button"
+                        >
+                        <span className={styles.pillIcon} aria-hidden="true">
+                            <FontAwesomeIcon icon={faDiscord} />
+                        </span>
+                        <span>electrocubic</span>
+                        </button>
+                    </div>
 
-          <div className={styles.metaLine}>
-            <span className={styles.dot} aria-hidden="true" />
-            <span> Usually replies within 24-48hrs </span>
-          </div>
+                    <div className={styles.metaLine}>
+                        <span className={styles.dot} aria-hidden="true" />
+                        <span> Usually replies within 24-48hrs </span>
+                    </div>
+                </div>
+            </div>
+
+            <div className={styles.contactText}>
+                <h1>Let's Connect!</h1>
+                <p>
+                I enjoy talking about game design, systems, mechanics, and ideas in
+                progress.
+                <br />
+                <br />
+                If you're curious about my work, want to exchange thoughts, or
+                explore a collaboration, feel free to reach out.
+                <br />
+                <br />
+                You can even just say Hi! :D
+                </p>
+            </div>
+
+            <div className={styles.footer}>
+                <div className={styles.footerText}>
+                    &copy; {new Date().getFullYear()} Anush Bundel | ElectroCubic
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div className={styles.contactText}>
-        <h1>Let's Connect!</h1>
-        <p>
-          I enjoy talking about game design, systems, mechanics, and ideas in
-          progress.
-          <br />
-          <br />
-          If you're curious about my work, want to exchange thoughts, or
-          explore a collaboration, feel free to reach out.
-          <br />
-          <br />
-          You can even just say Hi! :D
-        </p>
-      </div>
-
-      <div className={styles.footer}>
-        <div className={styles.footerText}>
-          &copy; {new Date().getFullYear()} Anush Bundel | ElectroCubic
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default ContactSection;
