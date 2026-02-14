@@ -78,19 +78,19 @@ export const TREE = {
             id: "vsc",
             label: "VS Code",
             icon: "/icons/vscode.svg",
-            desc: "Development environment customization, debugging workflows, and productivity tooling.", 
+            desc: "Primary IDE for coding, debugging, and Git integration workflows.", 
             children: [
                 {
                     id: "html",
                     label: "HTML",
                     icon: "/icons/html5.svg",
-                    desc: "Semantic structure, accessibility fundamentals, and SEO-aware markup.", 
+                    desc: "Semantic, accessible structuring for webpages and components.", 
                     children: [
                         {
                             id: "css",
                             label: "CSS",
                             icon: "/icons/css3.svg",
-                            desc: "Responsive layouts, animations, component styling, and design systems.", 
+                            desc: "Responsive layouts, animations, component styling, and page design.", 
                             children: [
                                 {
                                     id: "js",
@@ -121,7 +121,7 @@ export const TREE = {
                             id: "unity", 
                             label: "Unity",
                             icon: "/icons/unity.svg",
-                            desc: "Scene systems, physics interactions, scripting behaviors, and gameplay systems.",  
+                            desc: "2D/3D game dev: gameplay scripting, UI, prefabs, animation, builds & iteration.",  
                             children: [] 
                         },
                     ],
