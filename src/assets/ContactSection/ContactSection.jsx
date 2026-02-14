@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPaperPlane, faHandshake, faCode, faGamepad } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin, faItchIo, faDiscord, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import Button from "../Button/Button.jsx";
 import styles from "./ContactSection.module.css";
@@ -45,56 +45,60 @@ function ContactSection()
             <div className={styles.contactBlock}>
                 <div className={styles.card}>
                     <div className={styles.contactBtns}>
-                        <Button className={styles.mailBtn} onClick={openMail}>
-                        <span className={styles.btnIcon} aria-hidden="true">
-                            <FontAwesomeIcon icon={faEnvelope} />
-                        </span>
-                        <span>Email Me</span>
+                        <Button className={`${styles.brandBtn} ${styles.mailBtn}`} onClick={openMail}>
+                            <span className={styles.iconWrapper} aria-hidden="true">
+                                <FontAwesomeIcon icon={faEnvelope} className={styles.iconPrimary}/>
+                                <FontAwesomeIcon icon={faPaperPlane} className={styles.iconSecondary}/>
+                            </span>
+                            <span>Email Me</span>
                         </Button>
 
-                        <Button className={styles.githubBtn} onClick={openGitHub}>
-                        <span className={styles.btnIcon} aria-hidden="true">
-                            <FontAwesomeIcon icon={faGithub} />
-                        </span>
-                        <span>Github</span>
+                        <Button className={`${styles.brandBtn} ${styles.githubBtn}`} onClick={openGitHub}>
+                            <span className={styles.iconWrapper} aria-hidden="true">
+                                <FontAwesomeIcon icon={faGithub} className={styles.iconPrimary}/>
+                                <FontAwesomeIcon icon={faCode} className={styles.iconSecondary}/>
+                            </span>
+                            <span>Github</span>
                         </Button>
 
-                        <Button className={styles.linkedInBtn} onClick={openLinkedIn}>
-                        <span className={styles.btnIcon} aria-hidden="true">
-                            <FontAwesomeIcon icon={faLinkedin} />
-                        </span>
-                        <span>LinkedIn</span>
+                        <Button className={`${styles.brandBtn} ${styles.linkedInBtn}`} onClick={openLinkedIn}>
+                            <span className={styles.iconWrapper} aria-hidden="true">
+                                <FontAwesomeIcon icon={faLinkedin} className={styles.iconPrimary}/>
+                                <FontAwesomeIcon icon={faHandshake} className={styles.iconSecondary}/>
+                            </span>
+                            <span>LinkedIn</span>
                         </Button>
 
-                        <Button className={styles.itchioBtn} onClick={openItchio}>
-                        <span className={styles.btnIcon} aria-hidden="true">
-                            <FontAwesomeIcon icon={faItchIo} />
-                        </span>
-                        <span>Itch.io</span>
+                        <Button className={`${styles.brandBtn} ${styles.itchioBtn}`} onClick={openItchio}>
+                            <span className={styles.iconWrapper} aria-hidden="true">
+                                <FontAwesomeIcon icon={faItchIo} className={styles.iconPrimary}/>
+                                <FontAwesomeIcon icon={faGamepad} className={styles.iconSecondary}/>
+                            </span>
+                            <span>Itch.io</span>
                         </Button>
                     </div>
 
                     <div className={styles.extraRow}>
                         <button
-                        className={styles.extraPill}
-                        onClick={openYouTube}
-                        type="button"
+                            className={styles.extraPill}
+                            onClick={openYouTube}
+                            type="button"
                         >
-                        <span className={styles.pillIcon} aria-hidden="true">
-                            <FontAwesomeIcon icon={faYoutube} />
-                        </span>
-                        <span>ElectroCubicYT</span>
+                            <span className={styles.pillIcon} aria-hidden="true">
+                                <FontAwesomeIcon icon={faYoutube} />
+                            </span>
+                            <span>ElectroCubicYT</span>
                         </button>
 
                         <button
-                        className={styles.extraPill}
-                        onClick={openDiscord}
-                        type="button"
+                            className={styles.extraPill}
+                            onClick={openDiscord}
+                            type="button"
                         >
-                        <span className={styles.pillIcon} aria-hidden="true">
-                            <FontAwesomeIcon icon={faDiscord} />
-                        </span>
-                        <span>electrocubic</span>
+                            <span className={styles.pillIcon} aria-hidden="true">
+                                <FontAwesomeIcon icon={faDiscord} />
+                            </span>
+                            <span>electrocubic</span>
                         </button>
                     </div>
 
@@ -108,15 +112,15 @@ function ContactSection()
             <div className={styles.contactText}>
                 <h1>Let's Connect!</h1>
                 <p>
-                I enjoy talking about game design, systems, mechanics, and ideas in
-                progress.
+                    I enjoy talking about game design, systems, mechanics, and ideas in
+                    progress.
                 <br />
                 <br />
-                If you're curious about my work, want to exchange thoughts, or
-                explore a collaboration, feel free to reach out.
+                    If you're curious about my work, want to exchange thoughts, or
+                    explore a collaboration, feel free to reach out.
                 <br />
                 <br />
-                You can even just say Hi! :D
+                    You can even just say Hi! :D
                 </p>
             </div>
 
@@ -129,4 +133,4 @@ function ContactSection()
     );
 }
 
-export default ContactSection;
+export default ContactSection
