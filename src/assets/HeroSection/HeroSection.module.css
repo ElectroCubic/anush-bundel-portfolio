@@ -110,7 +110,7 @@
 }
 
 .resume:hover .dlIcon {
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 @media (max-width: 1250px) {
