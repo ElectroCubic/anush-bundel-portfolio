@@ -34,24 +34,6 @@
     margin: 0 auto;
 }
 
-.hl {
-    color: var(--accent-color2);
-    opacity: 0.85;
-    font-weight: 400;
-}
-
-.hl2 {
-    color: var(--accent-color1);
-    opacity: 0.85;
-    font-weight: 400;
-}
-
-.hl3 {
-    color: var(--text-color1);
-    opacity: 0.9;
-    font-weight: 400;
-}
-
 .wordGridContainer {
     width: 100%;
     max-width: 520px;

@@ -13,9 +13,9 @@ function HeroSection()
             <ProfilePic />
 
             <div className={styles.headline}>
-                <h1> Building Worlds Never Imagined Before. </h1>
+                <h1> Building Worlds Never Imagined Before.</h1>
                 <p> Designing games and interactive systems with a focus on 
-                    mechanics, feedback, and player experience. </p>
+                    <span className="hl"> mechanics,</span><span className="hl2"> feedback,</span> and <span className="hl3">player experience.</span> </p>
 
                 <div className={styles.ctaButton}>
                     <Button className={styles.heroCta} onClick={() => scrollTo("projects", 150)}>

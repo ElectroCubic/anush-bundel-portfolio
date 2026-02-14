@@ -13,7 +13,6 @@ a, button {
     -webkit-touch-callout: none;
 }
 
-
 html {
     /* scroll-snap-type: y mandatory; */
     scroll-behavior: smooth;
@@ -29,6 +28,24 @@ body {
 section {
     /* scroll-snap-align: start; */
     scroll-margin-top: 50px;
+}
+
+.hl {
+    color: var(--accent-color2);
+    opacity: 0.85;
+    font-weight: 400;
+}
+
+.hl2 {
+    color: var(--accent-color1);
+    opacity: 0.85;
+    font-weight: 400;
+}
+
+.hl3 {
+    color: var(--text-color1);
+    opacity: 0.9;
+    font-weight: 400;
 }
 
 :root {

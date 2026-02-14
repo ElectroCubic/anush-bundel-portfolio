@@ -304,12 +304,12 @@ function AboutSection() {
             <div className={styles.textBlock}>
                 <h1>Who Am I?</h1>
                 <p>
-                    I'm <span className={styles.hl}>Anush</span>, a <span className={styles.hl}>Game Developer</span> passionate 
-                    about building interactive <span className={styles.hl3}> systems</span> and unique<span className={styles.hl3}> gameplay mechanics</span>. 
+                    I'm <span className="hl">Anush</span>, a <span className="hl2">Game Developer</span> passionate 
+                    about building interactive <span className="hl3"> systems</span> and unique<span className="hl3"> gameplay mechanics</span>. 
                     I take ideas and turn them into engaging gameplay experiences.
                     <br/><br/>
-                    I enjoy participating in <span className={styles.hl3}> Game Jams </span> and pushing myself to learn new tools 
-                    and techniques through hands-on <span className={styles.hl2}>experimentation</span> and <span className={styles.hl2}>rapid prototyping</span>. 
+                    I enjoy participating in <span className="hl3"> Game Jams </span> and pushing myself to learn new tools 
+                    and techniques through hands-on <span className="hl2">experimentation</span> and <span className="hl">rapid prototyping</span>. 
                 </p>
             </div>
 
